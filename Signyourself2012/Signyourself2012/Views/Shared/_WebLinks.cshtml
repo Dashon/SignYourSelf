@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Signyourself2012.Models.File>
+<ul>
+    @{      
+        {
+            foreach (Signyourself2012.Models.File Link in Model)
+            {
+                var icon = (Link.LinkSource.WebsiteName == null) ? "plus.png" : Link.LinkSource.WebsiteName.ToLower() + ".png";
+                     
+        <li><a href="@Link.Url" title="@Link.Name" class="poshytip">
+            <img src="~/Images/social/@icon" alt="@Link.LinkSource.WebsiteName"/></a></li>
+                ;
+            }
+        }
+    }
+</ul>

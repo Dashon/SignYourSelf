@@ -1,0 +1,29 @@
+﻿<section class="home-block">
+    <h2 class="home-block-heading">
+        <span>FEATURED CAMPAIGNS</span></h2>
+    <div class="one-fourth-thumbs clearfix">
+        @{ var db = new Signyourself2012.Models.SignYourselfEntities();
+           var F_Campaigns = from fc in db.Ref_FeaturedCampaigns
+                             join c in db.Campaigns on fc.CampaignID equals c.CampaignID
+                             select c;
+           var t = F_Campaigns.Count();
+           if (F_Campaigns.Count() > 0)
+           {
+               foreach (Signyourself2012.Models.Campaign c in F_Campaigns)
+               {
+                   
+                    
+            <figure>
+                <figcaption class="clearfix">
+                <strong>@c.Name</strong> <em>@c.Intro</em>
+                </figcaption>
+                <a href="~/Campaigns/view/@c.CampaignID" class="thumb">
+                    <img src="@c.Avatar" alt="@c.Name" /></a>
+            </figure>
+               }
+           }
+        }
+    </div>
+    <div class="clearfix">
+    </div>
+</section>

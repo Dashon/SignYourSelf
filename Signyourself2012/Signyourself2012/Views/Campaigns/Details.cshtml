@@ -1,0 +1,85 @@
+﻿@model Signyourself2012.Models.Campaign
+@using Signyourself2012.Models
+@{
+    ViewBag.Title = "Index";
+    var db = new Signyourself2012.Models.SignYourselfEntities();   
+  
+}
+<!-- MAIN -->
+<br />
+<br />
+<br />
+<h2 class="page-heading">
+    <span>@Html.DisplayFor(model => model.Name)</span>
+</h2>
+<div id="EndDate_Badge">
+    <div id="EndDate_Days">@Model.EndDate.Subtract(DateTime.Today).TotalDays</div>
+    <div id="EndDate_caption">
+        Days Left</div>
+</div>
+<!-- project content -->
+<div id="project-content" class="clearfix">
+@{Html.RenderPartial("_BigSlider"); }
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
+    <section class="MasterLeft-panel">
+        <div id="tabs">
+            <ul>
+                <li><a href="#MainTab">Main</a></li>
+                <li><a href="#Updates">Updates</a></li>
+                <li><a href="#Supporters">Supporters</a></li>
+                <li><a href="#Comments">Comments</a></li>
+                <li><a href="#Members">Members</a></li>
+            </ul>
+            <div id="MainTab">
+                <!-- heading -->
+                <div class="project-heading">
+                    <h2>
+                        Description</h2>
+                    <br />
+                </div>
+                <!-- ENDS heading -->
+                <div class="project-description">
+                    @Html.DisplayFor(model => model.Description)
+                    @{Html.RenderPartial("Player"); }
+                </div>
+            </div>
+            <div id="Updates">
+                @{Html.RenderPartial("_CampaignUpdates",Model.CampaignUpdates);}
+            </div>
+            <div id="Supporters">
+                @{Html.RenderPartial("_CampaignSupporters",Model.CampaignUsers);}
+                </div>
+                <!-- ends thumbs-->
+            </div>
+            <div id="Comments">                
+                @{Html.RenderPartial("_CampaignComments",Model.CampaignComments);}
+            </div>
+            <div id="Members">
+                @{Html.RenderPartial("_CampaignMembers",Model.CampaignUsers);}               
+            </div>
+        </div>
+        <!-- End Tabs -->
+    </section>
+    <section class="MasterRightSide-Panel">
+        <aside id="lil-sidebar">
+             @{Html.RenderPartial("_CampaignGoals",Model.Goals);}
+            <h4>
+                CAMPAIGN BY</h4>
+            <br />
+            @{Html.RenderPartial("_UserCard",Model.Creator);}
+        </aside>
+    </section>
+    <div class="clearfix">
+    </div>
+    @*   <section class="project-pager">
+        <a class="previous-project" href="#">&#8592; Previous project</a> <a class="next-project"
+            href="#">Next project &#8594;</a>
+    </section>*@
+</div>
+<!--  ENDS project content-->
+@{Html.RenderPartial("_FeaturedCampaigns"); }
+<!-- ENDS MAIN -->

@@ -1,0 +1,280 @@
+﻿@model IEnumerable<Signyourself2012.Models.Campaign>
+
+@{
+    ViewBag.Title = "Index";
+    var db = new Signyourself2012.Models.SignYourselfEntities();   
+}
+
+<!-- MAIN -->
+<div id="player" hidden="hidden">
+    @{ Html.RenderPartial("Player"); }
+</div>
+<section id="main">
+    <div class="wrapper clearfix">
+        <h2 class="page-heading">
+            <span>@Html.DisplayFor(model => model.Name)</span></h2>
+        <div id="EndDate_Badge">
+            <div id="EndDate_Days">@Model.EndDate.Subtract(DateTime.Today).TotalDays</div>
+            <div id="EndDate_caption">
+                Days Left</div>
+        </div>
+        <!-- project content -->
+        <div id="project-content" class="clearfix">
+            <!-- slider -->
+            <section class="project-slider">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li>
+                            <img src="~/Images/slides/01.jpg" alt="alt text" />
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <!-- ENDS slider -->
+            <!-- slider -->
+            <script>
+                $(function () {
+                    $("#tabs").tabs();
+                });
+            </script>
+            <section class="MasterLeft-panel">
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#MainTab">Main</a></li>
+                        <li><a href="#Updates">Updates</a></li>
+                        <li><a href="#Supporters">Supporters</a></li>
+                        <li><a href="#Reviews">Reviews</a></li>
+                        <li><a href="#Members">Members</a></li>
+                    </ul>
+                    <div id="MainTab">
+                        <!-- heading -->
+                        <div class="project-heading">
+                            <h2>
+                                Description</h2>
+                            <br />
+                        </div>
+                        <!-- ENDS heading -->
+                        <div class="project-description">
+                            @Html.DisplayFor(model => model.Description)
+                        </div>
+                    </div>
+                    <div id="Updates">
+                        <!-- updates list -->
+                        <div id="comments-wrap">
+                            <h3 class="heading">
+                                @Model.CampaignUpdates.Count COMMENTS</h3>
+                            <ol class="commentlist">
+                                @{        var i = 1;
+                                          var iclassify = "";
+                                          foreach (Signyourself2012.Models.CampaignUpdate u in Model.CampaignUpdates)
+                                          {
+                                              
+                                              iclassify = (i % 2 == 0) ? "even" : "odd";
+                                    
+                                    <!-- update-->
+                                    <li class="comment even thread-@iclassify depth-1" id="li-comment-1">
+                                        <div id="@u.CampaignUpdateID" class="comment-body clearfix">
+                                            <img alt='@u.UserProfile.UserName' src='@u.UserProfile.Avatar'
+                                            class='avatar avatar-35 photo' height='35' width='35' />
+                                            <div class="comment-author vcard">
+                                                @u.UserProfile.UserName</div>
+                                            <div class="comment-meta commentmetadata">
+                                                <span class="comment-date">@u.DateCreated.Subtract(DateTime.Today).TotalDays days ago
+                                                </span><span class="comment-reply-link-wrap"><a class='comment-reply-link' href='replytocom=23#respond'
+                                                    onclick='return addComment.moveForm("comment-1", "1", "respond", "432")'>Reply</a></span>
+                                            </div>
+                                            <div class="comment-inner">
+                                                <p>@u.Content</p>
+                                            </div>
+                                        </div>
+                                        <!-- ENDS Comment -->
+                                        @{                             
+                                       
+                                              var replies = from cu in db.CampaignUpdates
+                                                            where cu.CampaignUpdateID == u.CampaignUpdateID
+                                                            select cu;
+
+                                              if (replies.Count() > 0)
+                                              {
+                                            <!-- child -->
+                                            <ul class='children'>
+                                                @{
+                                                  var m = 1;
+                                                  var mclassify = "";
+                                                  foreach (Signyourself2012.Models.CampaignUpdate r in replies)
+                                                  {
+                                                      mclassify = (i % 2 == 0) ? "even" : "odd";
+                                                    <!-- comment-->
+                                                    <li class="comment even thread-@mclassify depth-1" id="li-comment-1">
+                                                        <div id="comment_@r.CampaignUpdateID" class="comment-body clearfix">
+                                                            <img alt='@r.UserProfile.UserName' src='@r.UserProfile.Avatar'
+                                            class='avatar avatar-35 photo' height='35' width='35' />
+                                                            <div class="comment-author vcard">
+                                                                @r.UserProfile.UserName</div>
+                                                            <div class="comment-meta commentmetadata">
+                                                                <span class="comment-date">@r.DateCreated.Subtract(DateTime.Today).TotalDays days ago
+                                                                </span><span class="comment-reply-link-wrap"><a class='comment-reply-link' href='replytocom=23#respond'
+                                                                    onclick='return addComment.moveForm("comment-1", "1", "respond", "432")'>Reply</a></span>
+                                                            </div>
+                                                            <div class="comment-inner">
+                                                                <p>@r.Content</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <!-- ENDS Comment -->                                  
+                                                      m++;
+                                                  }
+                                            
+                                                }
+                                            </ul>
+                                            <!-- ENDS child -->                               
+                                              }
+                                        }
+                                    </li>
+                            
+                                              i++;
+                                          }
+                                }
+                            </ol>
+                        </div>
+                        <!-- ENDS comments list -->
+                    </div>
+                    <div id="Supporters">
+                        @{ var C_Supporters = from cu in db.Ref_CampaignUsers
+                                              join us in db.UserProfiles on cu.UserID equals us.UserId
+                                              where cu.CampaignID == Model.CampaignID & cu.RelationshipTypeID == 2
+                                              select new{us.Avatar, us.User.UserName, us.UserId, us.Blurb};
+                        }
+                        <h3 class="heading">
+                            @C_Supporters.Count() Supporters</h3>
+                        <!-- thumbs -->
+                        <div class="List-thumbs clearfix sm">
+                            @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in Model.Ref_CampaignUsers.Where(User=>User.RelationshipTypeID==2))
+                            {
+                                <figure>
+                                    <figcaption class="clearfix">
+                                        <strong>@cu.User.UserName</strong> <em>@cu.User.<em>
+                                    </figcaption>
+                                    <a href="~/Users/view/@cu.UserId" class="thumb">
+                                        <img src="@cu.Avatar" alt="@cu.UserName" /></a>
+                                </figure>
+                            }
+                        </div>
+                        <!-- ends thumbs-->
+                    </div>
+                    <div id="Reviews">
+                        <!-- COPY FROM UPDATES -->
+                    </div>
+                    <div id="Members">
+                        @{ var C_members = from cu in db.Ref_CampaignUsers
+                                           join usr in db.UserProfiles on cu.UserID equals usr.UserId
+                                           where cu.CampaignID == Model.CampaignID & cu.RelationshipTypeID == 1
+                                           select usr;
+                        }
+                        <h3 class="heading">
+                            @C_members.Count() Members</h3>
+                        <!-- thumbs -->
+                        <div class="List-thumbs clearfix sm">
+                            @foreach (Signyourself2012.Models.UserProfile usr in C_members)
+                            {
+                                <figure>KD
+                                    <figcaption class="clearfix">
+                                        <strong>@usr.UserName</strong> <em>@usr.Blurb<em>
+                                    </figcaption>
+                                    <a href="~/Users/view/@usr.UserId" class="thumb">
+                                        <img src="@usr.Avatar" alt="@usr.UserName" /></a>
+                                </figure>
+                            }
+                        </div>
+                        <!-- ends thmbs-->
+                    </div>
+                </div>
+                <!-- End Tabs -->
+            </section>
+            <section class="MasterRightSide-Panel">
+                <aside id="lil-sidebar">
+                    <div class="block">
+                        <h4>
+                            GOALS</h4>
+                        <div class="Goals-Block">
+                            @{ 
+                                var j = 1;
+                                var jclassify = "";
+                                foreach (Signyourself2012.Models.Goal g in Model.Goals)
+                                {
+                                    jclassify = (j % 2 == 0) ? "even" : "odd";
+                                    
+                                <div id="Goal_@g,GoalID" class="Goal_@jclassify">
+                                    <div>@g.GoalType.Name</div>
+                                    <div>@g.Name</div>
+                                    <div>@g.Description</div>
+                                    <div>@g.TargetNum</div>
+                                    <div>@g.CurrentQTY</div>
+                                    <progress max="@g.TargetNum" value="@g.CurrentQTY" >
+                                    </progress>
+                                    <div>@g.ExpDate.Subtract(DateTime.Today).TotalDays days left</div>
+                                    @{   
+                                    var k = 1;
+                                    var kclassify = "";
+                                    foreach (Signyourself2012.Models.Reward r in g.Rewards)
+                                    {
+                                        kclassify = (k % 2 == 0) ? "even" : "odd";
+                                    
+                                        <div id="Reward_@r.RewardID" class="Reward_@kclassify">
+                                            <div>@r.RewardType.Name</div>
+                                            <div>@r.Minimum</div>
+                                            <div>@r.MaxAvailable</div>
+                                            <div>@r.Description</div>
+                                            <div>
+                                                Expected to be delivered on @r.DeliveryDate</div>
+                                        </div>
+                                    }
+                                    }
+                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <br />
+                        <h4>
+                            CAMPAIGN BY</h4>
+                        <div>
+                            <img class="UserAvatar" alt="User Avatar" src="http://localhost:6311/Images/dummies/54x54.gif" />
+                            @Html.DisplayFor(model => model.UserProfile.UserName)</div>
+                        <div>
+                            last login date
+                        </div>
+                        <div>
+                            @Html.DisplayFor(model => model.UserProfile.Location)</div>
+                        <div>
+                            @Html.DisplayFor(model => model.UserProfile.Blurb)</div>
+                        <ul id="userSocial-bar">
+                            <li><a href="http://www.facebook.com" title="UserName Facebook" class="poshytip">
+                                <img src="~/Images/social/facebook.png" alt="Facebook" /></a></li>
+                            <li><a href="http://www.twitter.com" title="Follow my UserName" class="poshytip">
+                                <img src="~/Images/social/twitter.png" alt="twitter" /></a></li>
+                            <li><a href="http://www.google.com" title="Add UserName to the circle" class="poshytip">
+                                <img src="~/Images/social/plus.png" alt="Google plus" /></a></li>
+                            <li><a href="mailto:@Html.DisplayFor(model => model.UserProfile.Email)" title="Email @Html.DisplayFor(model => model.UserProfile.FirstName)">
+                                Email icon</a> </li>
+                        </ul>
+                        <div class="email">
+                        </div>
+                    </div>
+                </aside>
+            </section>
+            <div class="clearfix">
+            </div>
+            <section class="project-pager">
+                <a class="previous-project" href="#">&#8592; Previous project</a> <a class="next-project"
+                    href="#">Next project &#8594;</a>
+            </section>
+            <div id="FeaturedC" hidden="hidden">
+                @{Html.RenderPartial("FeaturedC"); }
+            </div>
+        </div>
+        <!--  ENDS project content-->
+    </div>
+</section>
+<!-- ENDS MAIN -->

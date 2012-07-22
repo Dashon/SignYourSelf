@@ -1,0 +1,100 @@
+﻿@model Signyourself2012.Models.Profile
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Profile</legend>
+        
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+         <div class="editor-label">
+            @Html.LabelFor(model => model.Middle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Middle)
+            @Html.ValidationMessageFor(model => model.Middle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+       
+    <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DOB)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DOB)
+            @Html.ValidationMessageFor(model => model.DOB)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location)
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Skills)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Skills)
+            @Html.ValidationMessageFor(model => model.Skills)
+        </div>
+
+        
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Blurb,"A Little About Me")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Blurb)
+            @Html.ValidationMessageFor(model => model.Blurb)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+<fieldset>
+ <legend>Site Admin</legend>
+ 
+</fieldset>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

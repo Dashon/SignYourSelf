@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en" @Facebook.FbmlNamespaces()>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css"
+        type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet'
+        type='text/css'>
+    @Styles.Render("~/Content/themes/base/css", "~/Content/sus")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/sus", "/bundles/jqueryval", "~/bundles/jqueryui", "~/bundles/modernizr")
+</head>
+<body>
+    <header class="clearfix">
+        <!-- top widget -->
+        <div id="top-widget-holder">
+            <div class="wrapper">
+                <div id="top-widget">
+                    <div class="padding">
+                        <ul class="widget-cols clearfix">
+                            <li class="first-col">
+                                <div class="widget-block">
+                                    <h4>
+                                        Recent posts</h4>
+                                    <div class="recent-post">
+                                        <a href="#" class="thumb">
+                                            <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                                        <div class="post-head">
+                                            <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-post">
+                                        <a href="#" class="thumb">
+                                            <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                                        <div class="post-head">
+                                            <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-post">
+                                        <a href="#" class="thumb">
+                                            <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                                        <div class="post-head">
+                                            <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="second-col">
+                                <div class="widget-block">
+                                    <h4>
+                                        Dummy text</h4>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+                                        egestas. Vestibulum tortor quam, feugiat vitae, ultricies ege. Aenean ultricies
+                                        mi vitae est. Mauris placerat eleifend leo.</p>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada.</p>
+                                </div>
+                            </li>
+                            <li class="third-col">
+                                <div class="widget-block">
+                                    <h4>
+                                        Dummy text</h4>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+                                        egestas. Vestibulum tortor quam, feugiat vitae, ultricies ege. Aenean ultricies
+                                        mi vitae est. Mauris placerat eleifend leo.</p>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada.</p>
+                                </div>
+                            </li>
+                            <li class="fourth-col">
+                                <div class="widget-block">
+                                    <h4>
+                                        Dummy text</h4>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+                                        egestas. Vestibulum tortor quam, feugiat vitae, ultricies ege. Aenean ultricies
+                                        mi vitae est. Mauris placerat eleifend leo.</p>
+                                    <p>
+                                        Pellentesque habitant morbi tristique senectus et netus et malesuada.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a href="#" id="top-open">Menu</a>
+        </div>
+        <!-- ENDS top-widget -->
+        <div class="wrapper clearfix">
+            <nav>
+                <ul id="nav" class="sf-menu">
+                    <li><a href="~/" id="logo">
+                        <img alt="SignYourself" height="30" id="SignYourself" style="margin-top: 6px" src="~/Images/suslogo.png"></a></li>
+                    <li>
+                        <input type="text" maxlength="50" id="Search" name="Search" title="Search" placeholder="Search" /></li>
+                    <li>@Html.ActionLink("BROWSE", "Index", "Home")</li>
+                    <li>@Html.ActionLink("FEATURES", "Features", "Home")</li>
+                    <li>@Html.ActionLink("ABOUT", "About", "Home")
+                        @*     <ul>
+                            <li><a href="#">Submenu</a></li>
+                            <li><a href="#">Submenu</a></li>
+                            <li><a href="#">Submenu</a></li>
+                        </ul>*@ </li>
+                </ul>
+                <div id="combo-holder">
+                </div>
+            </nav>
+            <section id="login">
+                @if (WebSecurity.IsAuthenticated)
+                {
+                    <p>
+                        Hello, <a class="username" href="~profiles/@WebSecurity.CurrentUserName" title="My Profile">@WebSecurity.CurrentUserName</a>!
+                    </p> <ul>
+                        <li>@Html.ActionLink("My Dashboard", "Dashboard", "Account")</li>
+                        <li>@Html.ActionLink("Logout", "Logoff", "Account")</li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li>@Html.ActionLink("Register", "Register", "Account")</li>
+                        <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+                    </ul>
+                }
+            </section>
+        </div>
+    </header>
+    <div id="body">
+        <div class="oblique-line" />
+        @if (WebSecurity.IsAuthenticated)
+        {
+            <section style="display:none;">
+                <h4 class="alert_error" id="Alert" hidden="hidden">
+                    An Alert Message</h4>
+            </section>
+        }
+        <section class="wrapper">
+        @RenderSection("Featured", required: false)
+        @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="oblique-line"/>
+        <div class="wrapper">
+            <ul class="widget-cols clearfix">
+                <li class="first-col">
+                    <div class="widget-block">
+                        <h4>
+                            Recent posts</h4>
+                        <div class="recent-post">
+                            <a href="#" class="thumb">
+                                <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                            <div class="post-head">
+                                <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <a href="#" class="thumb">
+                                <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                            <div class="post-head">
+                                <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <a href="#" class="thumb">
+                                <img src="~/Images/dummies/54x54.gif" alt="Post" /></a>
+                            <div class="post-head">
+                                <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="second-col">
+                    <div class="widget-block">
+                        <h4>
+                            Zeni Template</h4>
+                        <p>
+                            Hope you find this template useful you are free to use it on personal and commercial
+                            projects. See the full license at this <a href="http://luiszuno.com/blog/license">link</a></p>
+                    </div>
+                </li>
+                <li class="third-col">
+                    <div class="widget-block">
+                        <div id="tweets" class="footer-col tweet">
+                            <h4>
+                                Twitter widget</h4>
+                        </div>
+                    </div>
+                </li>
+                <li class="fourth-col">
+                    <div class="widget-block">
+                        <h4>
+                            Placeholder images</h4>
+                        <p>
+                            Thanks to <a href="http://www.thebeaststudio.com/">Moe Pike</a> for sharing his
+                            work as place holder images for this preview. Visit his <a href="http://www.thebeaststudio.com/">
+                                website</a> and find more of his awesome work.</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="footer-bottom">
+                <div class="left">
+                    <p>
+                        &copy; @DateTime.Now.Year - SignYourself</p>
+                </div>
+                <div class="right">
+                    <ul id="social-bar">
+                        <li><a href="http://www.facebook.com" title="Become a fan" class="poshytip">
+                            <img src="~/Images/social/facebook.png" alt="Facebook" /></a></li>
+                        <li><a href="http://www.twitter.com" title="Follow my tweets" class="poshytip">
+                            <img src="~/Images/social/twitter.png" alt="twitter" /></a></li>
+                        <li><a href="http://www.google.com" title="Add to the circle" class="poshytip">
+                            <img src="~/Images/social/plus.png" alt="Google plus" /></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

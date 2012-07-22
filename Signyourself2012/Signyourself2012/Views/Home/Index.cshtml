@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<!-- MAIN -->
+		<section id="main">	
+			<div class="wrapper">
+            @section featured {
+				<!-- slider holder -->
+               
+				<section id="slider-holder" class="clearfix">
+					
+					<!-- slider -->
+			        <div class="flexslider home-slider">
+					  <ul class="slides">
+					    <li>
+					      <img src="~/Images/slides/01.jpg" alt="alt text" />
+					    </li>
+					    <li>
+					      <img src="~/Images/slides/02.jpg" alt="alt text" />
+					      <p class="flex-caption">Pellentesque habitant morbi  feugiat vitae.</p>
+					    </li>
+					    <li>
+					      <img src="~/Images/slides/03.jpg" alt="alt text" />
+					    </li>
+					  </ul>
+					</div>
+		        	<!-- ENDS slider -->
+		        	
+		        	<div class="home-slider-clearfix "></div>
+		        	
+		        	<!-- Headline -->
+		        	<div id="headline">
+		        		<h1>test</h1>
+		        		<p>Zeni is a FREE Responsive HTML 5 Template. Hope you enjoy it using it as i enjoyed creating it. I plan to release a WordPress Version pretty soon. </p>
+		        		<p><a href="https://twitter.com/#!/ansimuz">Stay tuned!</a></p>
+		        		<em id="corner"></em>
+		        	</div>
+		        	<!-- ENDS headline -->
+		        	
+		        	
+				</section>
+				<!-- ENDS slider holder -->
+				}
+				
+				<!-- home-block -->
+	        	 <div id="FeaturedCampaigns" >
+                @{Html.RenderPartial("_FeaturedCampaigns"); }
+            </div>
+	        	<!-- ENDS home-block -->
+	        	
+	        	
+	        	 <div id="FeaturedCampaigns" >
+                @{Html.RenderPartial("_FeaturedUsers"); }
+            </div>
+      
+			</div>
+		</section>
+		<!-- ENDS MAIN -->

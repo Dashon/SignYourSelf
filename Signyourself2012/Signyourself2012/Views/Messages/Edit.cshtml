@@ -1,0 +1,93 @@
+﻿@model Signyourself2012.Models.Message
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Message</legend>
+
+        @Html.HiddenFor(model => model.MessageID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateCreated)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateCreated)
+            @Html.ValidationMessageFor(model => model.DateCreated)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Subject)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Subject)
+            @Html.ValidationMessageFor(model => model.Subject)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Body)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Body)
+            @Html.ValidationMessageFor(model => model.Body)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InReplyToMesssageId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InReplyToMesssageId)
+            @Html.ValidationMessageFor(model => model.InReplyToMesssageId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ToList)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ToList)
+            @Html.ValidationMessageFor(model => model.ToList)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Read)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Read)
+            @Html.ValidationMessageFor(model => model.Read)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateRead)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateRead)
+            @Html.ValidationMessageFor(model => model.DateRead)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserID, "User")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("UserID", String.Empty)
+            @Html.ValidationMessageFor(model => model.UserID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

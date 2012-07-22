@@ -1,0 +1,67 @@
+﻿@model Signyourself2012.Models.Reward
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Reward</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RewardType.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RewardType.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Creator.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Minimum)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Minimum)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DeliveryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DeliveryDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxAvailable)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxAvailable)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Goal.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Goal.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

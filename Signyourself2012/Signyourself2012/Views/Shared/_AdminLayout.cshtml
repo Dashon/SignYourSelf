@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css"
+        type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet'
+        type='text/css'>
+    @Styles.Render("~/Content/themes/base/css", "~/Content/sus/dashboard")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/sus", "/bundles/jqueryval", "~/bundles/jqueryui", "~/bundles/modernizr")
+</head>
+<body>
+    <header id="header">
+        <hgroup>
+            <h1 class="site_title">
+                <a href="index.html">SignYourself</a></h1>
+            <h2 class="section_title">
+                Dashboard</h2>
+        </hgroup>
+        <section id="TopButtons" class="btn_view_site">
+            <a href="http://www.medialoot.com">View profile </a><a href="http://www.medialoot.com">
+                Exit Dashboard </a>
+        </section>
+    </header>
+    <!-- end of header bar -->
+    <aside id="sidebar" class="column">
+        <form class="quick_search">
+        <input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+        </form>
+        <hr />
+        <h3>
+            My Profile</h3>
+        <ul class="toggle">
+            <li class="icn_profile"><a href="#">Edit Profile</a></li>
+            <li class="icn_profile"><a href="#">Contact info</a></li>
+            <li class="icn_audio"><a href="#">Audio</a></li>
+            <li class="icn_video"><a href="#">Video</a></li>
+            <li class="icn_settings"><a href="#">Settings</a></li>
+        </ul>
+        <h3>
+            Reach Out</h3>
+        <ul class="toggle">
+            <li class="icn_view_users"><a href="#">Email Shout</a></li>
+            <li class="icn_view_users"><a href="#">Social Shout</a></li>
+            <li class="icn_view_users"><a href="#">Press Kits</a></li>
+        </ul>
+        <h3>
+            Projects</h3>
+        <ul class="toggle">
+            <li class="icn_categories"><a href="#">My new album title</a></li>
+            <li class="icn_categories"><a href="#">My new fundraising title</a></li>
+            <li class="icn_categories"><a href="#">New Project</a></li>
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Stats</h3>
+        <ul class="toggle">
+            <li class="icn_view_users"><a href="#">Endorsements</a></li>
+            <li class="icn_view_users"><a href="#">Visitors</a></li>
+            <li class="icn_view_users"><a href="#">Plays</a></li>
+            <li class="icn_view_users"><a href="#">Supporterss</a></li>
+            <li class="icn_view_users"><a href="#">Buyers</a></li>
+        </ul>
+        <h3>
+            My Website</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Mobile App</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Widgets</h3>
+        <ul class="toggle">
+            <li class="icn_categories"><a href="#">All</a></li>
+            <li class="icn_categories"><a href="#">Banners</a></li>
+            <li class="icn_categories"><a href="#">Music</a></li>
+            <li class="icn_categories"><a href="#">Video</a></li>
+        </ul>
+        <h3>
+            My Store</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Income</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">Sales</a></li>
+            <li class="icn_folder"><a href="#">Ad Revenue</a></li>
+        </ul>
+        <h3>
+            Promote</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Distribute</h3>
+        <ul class="toggle">
+            <li class="icn_folder"><a href="#">+ Add New</a></li>
+        </ul>
+        <h3>
+            Billing</h3>
+        <ul class="toggle">
+            <li class="icn_categories"><a href="#">Balance</a></li>
+            <li class="icn_categories"><a href="#">Buy Tokens</a></li>
+            <li class="icn_categories"><a href="#">Transactions</a></li>
+            <li class="icn_categories"><a href="#">Paypal Account</a></li>
+            <li class="icn_categories"><a href="#">Billing History</a></li>
+        </ul>
+    </aside><!-- end of sidebar -->
+    <div id="body">
+        @RenderBody()
+    </div>
+    <footer>
+        <hr />
+        <div class="left">
+            <p>
+                &copy; @DateTime.Now.Year - SignYourself</p>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿@{      
+    if (!Facebook.IsFacebookUserAuthenticated || Facebook.IsFacebookUserAssociated)
+    {
+        Response.Redirect("~/");
+    }
+
+    PageData["Title"] = "Register an Account";
+    PageData["HideLoginNavBar"] = true;
+
+    // Initialize general page variables    
+    var email = "";
+    var name = "";
+    var fbUserProfile = Facebook.GetFacebookUserProfile();
+    if (fbUserProfile != null)
+    {
+        email = fbUserProfile.Email;
+        name = fbUserProfile.Name;
+    }
+    
+    // Validation
+    var isValid = true;
+    var emailErrorMessage = "";
+    var nameErrorMessage = "";
+    var accountCreationErrorMessage = "";
+
+    // If this is a POST request, validate and process data
+    if (IsPost) {
+        email = Request.Form["email"];
+        name = Request.Form["name"];
+        
+        // Validate the user's email address
+        if (email.IsEmpty()) {
+            emailErrorMessage = "You must specify an email address.";
+            isValid = false;
+        }
+        
+        // Validate the user's name
+        if (name.IsEmpty()) {
+            nameErrorMessage = "You must specify the name of the user.";
+            isValid = false;
+        }                       
+        
+        // If all information is valid, create a new account
+        if (isValid) { 
+            // Insert a new user into the database
+            var db = Database.Open("bakery");
+
+            // Check if user already exists
+            var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
+            if (user == null) {
+                // Insert email into the profile table
+                db.Execute("INSERT INTO UserProfile (Email, UserName) VALUES (@0, @1)", email, name);
+                
+                // Associate the user with the facebook account
+                Facebook.AssociateMembershipAccount(email);
+                
+                // Navigate back to the homepage and exit
+                Response.Redirect("~/");
+            } else {
+                // User already exists
+                isValid = false;
+                accountCreationErrorMessage = "Email address is already in use.";
+            }
+        }
+    }
+}
+
+<h2>Sign-up Form</h2>
+<p>
+   Use the form below to create a new account. 
+</p>
+
+@* If at least one validation error exists, notify the user *@
+@if (!isValid) {
+   <div class="message error icon">
+    @if (accountCreationErrorMessage.IsEmpty()) {
+        @:Please correct the errors and try again.
+    }
+    else {
+        @accountCreationErrorMessage
+    }
+   </div>
+}
+
+<fieldset class="prettyForm">   
+    <form method="post" action="">
+        <div>
+            <label for="email" id="labelEmail">Email:</label>
+            <input type="text" id="email" name="email" value="@email" />
+            @* Write any email validation errors to the page *@
+            @if (!emailErrorMessage.IsEmpty()) {
+                <span class="message error">&raquo; @emailErrorMessage</span>
+            }
+        </div>
+        <div>
+            <label for="name" id="labelName">Name:</label>
+            <input type="text" id="name" name="name" value="@name" />
+            @* Write any name validation errors to the page *@
+            @if (!nameErrorMessage.IsEmpty()) {
+                <span class="message error">&raquo; @nameErrorMessage</span>
+            }
+        </div>       
+        <div>
+            <input type="submit" value="Register" />
+        </div>
+   </form>
+</fieldset>

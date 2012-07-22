@@ -1,0 +1,106 @@
+﻿@model Signyourself2012.Models.Profile
+@{ var db = new Signyourself2012.Models.SignYourselfEntities();}
+    <!-- slider holder -->
+    <div id="slider-holder" class="clearfix">
+        <!-- slider -->
+        <div class="flexslider home-slider">
+            <ul class="slides">
+                <li>
+                    <img src="~/Images/slides/02.jpg" alt="alt text" />
+                    <p class="flex-caption">
+                        Pellentesque habitant morbi feugiat vitae.</p>
+                </li>
+            </ul>
+        </div>
+        <!-- ENDS slider -->
+        <div class="home-slider-clearfix ">
+        </div>
+        <!-- Headline -->
+        <div id="headline">
+            <p>@Html.DisplayFor(model => model.Avatar)</p>
+            <h1>@Html.DisplayFor(model => model.User.UserName)</h1>
+            <div id="contactBar">
+                <ul>
+                    @{
+                        if (WebSecurity.IsAuthenticated)
+                        {
+                            var sUserSupported = from purchase in db.Purchases
+                                                 where purchase.Product.UserID == Model.UserId &&
+                                                          purchase.UserID == (Guid)Membership.GetUser().ProviderUserKey
+                                                 select purchase;
+                            var curuser = (Guid)Membership.GetUser().ProviderUserKey;
+                        }
+
+                        
+                        var messageProducts = Model.User.Products.Where(x => x.ProductTypeID == 2 &&
+                                                                         x.Active == true);
+
+                        var messagePurchaseDates = from purchase in db.Purchases
+                                                   where purchase.ProductID == messageProducts.First().ProductID &&
+                                                         purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
+                                                   select purchase.Date;
+
+
+                        var callProducts = Model.User.Products.Where(x => x.ProductTypeID == 3 &&
+                                                                      x.Active == true);
+
+                        var callPurchaseDate = from purchase in db.Purchases
+                                               where purchase.ProductID == callProducts.First().ProductID &&
+                                                     purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
+                                               select purchase.Date;
+
+
+                        //TODO:update to hanle privacy level
+                        var CallEnabled = (Model.User.Profile.CallPrivacyLevelID == 5) ? true : false;
+                        var MessageEnabled = (Model.User.Profile.MessagePrivacyLevelID == 5) ? true : false;
+
+
+                        if (messageProducts == null || messagePurchaseDates != null)
+                        {
+                            if (MessageEnabled || messagePurchaseDates != null)
+                            { <li>Send Message</li>}
+                        }
+                        else
+                            if (messageProducts != null && messagePurchaseDates == null)
+                            {
+                                if (MessageEnabled)
+                                { <li>Buy Message</li>}
+                            }
+
+
+                        if (messageProducts == null || messagePurchaseDates != null)
+                        {
+                            if (MessageEnabled)
+                            { <li>Call Now</li>}
+                        }
+                        else
+                            if (messageProducts != null && MessageEnabled && messagePurchaseDates == null)
+                            {
+                        <li>Buy Call</li>
+                            }
+                    }
+                </ul>
+            </div>
+            <h2>
+                @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.Middle)
+                @Html.DisplayFor(model => model.LastName)</h2>
+            <h3>@Html.DisplayFor(model => model.Title)</h3>
+            <p>@Html.DisplayFor(model => model.DOB)</p>
+            <p>@Html.DisplayFor(model => model.Blurb)</p>
+            <p>@Html.DisplayFor(model => model.Skills)</p>
+            <p>@Html.DisplayFor(model => model.User.Membership.Email)</p>
+            <p>
+                <a href="https://twitter.com/#!/ansimuz">My Website</a></p>
+            <ul id="userSocial-bar">
+                <li><a href="http://www.facebook.com" title="UserName Facebook" class="poshytip">
+                    <img src="~/Images/social/facebook.png" alt="Facebook" /></a></li>
+                <li><a href="http://www.twitter.com" title="Follow my UserName" class="poshytip">
+                    <img src="~/Images/social/twitter.png" alt="twitter" /></a></li>
+                <li><a href="http://www.google.com" title="Add UserName to the circle" class="poshytip">
+                    <img src="~/Images/social/plus.png" alt="Google plus" /></a></li>
+            </ul>
+            <em id="corner"></em>
+        </div>
+        <!-- ENDS headline -->
+    </div>
+    <!-- ENDS slider holder -->

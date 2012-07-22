@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Signyourself2012.Models.UserComment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InReplyTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isSpam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spaminess)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReplyEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InReplyTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isSpam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Spaminess)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReplyEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserCommentID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserCommentID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserCommentID })
+        </td>
+    </tr>
+}
+
+</table>

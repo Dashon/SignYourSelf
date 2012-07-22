@@ -1,0 +1,267 @@
+﻿@model Signyourself2012.Models.Profile
+@{
+    ViewBag.Title = "Details";
+    var db = new Signyourself2012.Models.SignYourselfEntities();
+    //var ip = GetCountryByIP(GetIPAddress());
+}
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // When one of our nav links is clicked on, 
+        $('#UserMenu a').click(function (e) {
+            e.preventDefault();
+            div_to_activate = '#' + $(this).attr('href'); // Store its target
+            $('.UserMenu-Conent:visible').hide(); // Hide any visible div with the class "content"
+            $(div_to_activate).show(); // Show the target div    
+        });
+
+        $('#mediaTabs a').click(function (e) {
+            e.preventDefault();
+            div_to_activate = '#' + $(this).attr('href'); // Store its target
+            $('.MediaMenu-Conent:visible').hide(); // Hide any visible div with the class "content"
+            $(div_to_activate).show(); // Show the target div    
+        });
+    });
+</script>
+<!-- MAIN -->
+@section featured {
+    <!-- slider holder -->
+    <div id="slider-holder" class="clearfix">
+        <!-- slider -->
+        <div class="flexslider home-slider">
+            <ul class="slides">
+                <li>
+                    <img src="~/Images/slides/02.jpg" alt="alt text" />
+                    <p class="flex-caption">
+                        Pellentesque habitant morbi feugiat vitae.</p>
+                </li>
+            </ul>
+        </div>
+        <!-- ENDS slider -->
+        <div class="home-slider-clearfix ">
+        </div>
+        <!-- Headline -->
+        <div id="headline">
+            <p>@Html.DisplayFor(model => model.Avatar)</p>
+            <h1>@Html.DisplayFor(model => model.User.UserName)</h1>
+            <div id="contactBar">
+                <ul>
+                    @{
+                        if (WebSecurity.IsAuthenticated)
+                        {
+                            var sUserSupported = from purchase in db.Purchases
+                                                 where purchase.Product.UserID == Model.UserId &&
+                                                          purchase.UserID == (Guid)Membership.GetUser().ProviderUserKey
+                                                 select purchase;
+                            var curuser = (Guid)Membership.GetUser().ProviderUserKey;
+                        }
+
+                        
+                        var messageProducts = Model.User.Products.Where(x => x.ProductTypeID == 2 &&
+                                                                         x.Active == true);
+
+                        var messagePurchaseDates = from purchase in db.Purchases
+                                                   where purchase.ProductID == messageProducts.First().ProductID &&
+                                                         purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
+                                                   select purchase.Date;
+
+
+                        var callProducts = Model.User.Products.Where(x => x.ProductTypeID == 3 &&
+                                                                      x.Active == true);
+
+                        var callPurchaseDate = from purchase in db.Purchases
+                                               where purchase.ProductID == callProducts.First().ProductID &&
+                                                     purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
+                                               select purchase.Date;
+
+
+                        //TODO:update to hanle privacy level
+                        var CallEnabled = (Model.User.Profile.CallPrivacyLevelID == 5) ? true : false;
+                        var MessageEnabled = (Model.User.Profile.MessagePrivacyLevelID == 5) ? true : false;
+
+
+                        if (messageProducts == null || messagePurchaseDates != null)
+                        {
+                            if (MessageEnabled || messagePurchaseDates != null)
+                            { <li>Send Message</li>}
+                        }
+                        else
+                            if (messageProducts != null && messagePurchaseDates == null)
+                            {
+                                if (MessageEnabled)
+                                { <li>Buy Message</li>}
+                            }
+
+
+                        if (messageProducts == null || messagePurchaseDates != null)
+                        {
+                            if (MessageEnabled)
+                            { <li>Call Now</li>}
+                        }
+                        else
+                            if (messageProducts != null && MessageEnabled && messagePurchaseDates == null)
+                            {
+                        <li>Buy Call</li>
+                            }
+                    }
+                </ul>
+            </div>
+            <h2>
+                @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.Middle)
+                @Html.DisplayFor(model => model.LastName)</h2>
+            <h3>@Html.DisplayFor(model => model.Title)</h3>
+            <p>@Html.DisplayFor(model => model.DOB)</p>
+            <p>@Html.DisplayFor(model => model.Blurb)</p>
+            <p>@Html.DisplayFor(model => model.Skills)</p>
+            <p>@Html.DisplayFor(model => model.User.Membership.Email)</p>
+            <p>
+                <a href="https://twitter.com/#!/ansimuz">My Website</a></p>
+            <ul id="userSocial-bar">
+                <li><a href="http://www.facebook.com" title="UserName Facebook" class="poshytip">
+                    <img src="~/Images/social/facebook.png" alt="Facebook" /></a></li>
+                <li><a href="http://www.twitter.com" title="Follow my UserName" class="poshytip">
+                    <img src="~/Images/social/twitter.png" alt="twitter" /></a></li>
+                <li><a href="http://www.google.com" title="Add UserName to the circle" class="poshytip">
+                    <img src="~/Images/social/plus.png" alt="Google plus" /></a></li>
+            </ul>
+            <em id="corner"></em>
+        </div>
+        <!-- ENDS headline -->
+    </div>
+    <!-- ENDS slider holder -->
+}
+<section class="MasterLeftSide-Panel">
+   <aside id="lil-sidebar">
+    <h4>
+        Menu</h4>
+    <ul id="UserMenu" class="UserMenu-block">
+        <li class="updates"><a href="Updates">Updates</a></li>
+        <li class="campaigns"><a href="Campaigns">Campaigns</a></li>
+        <li class="stats"><a href="Stats">Stats</a></li>
+        <li class="connects"><a href="Connections">Connections</a></li>
+        <li class="media"><a href="Media">Media</a></li>
+    </ul>
+    </aside>
+</section>
+<section class="MasterRight-panel">
+    <div id="Updates" class="UserMenu-Conent" style="display: block;">
+        <div id="test2">
+            Test,emmmmd</div>
+    </div>
+    <div id="Campaigns" class="UserMenu-Conent">
+        @{ var U_Campaigns = from cu in db.Ref_CampaignUsers
+                             where cu.UserID == Model.UserId & cu.RelationshipTypeID == 2
+                             select cu.Campaign;
+
+           var User_Campaigns = Model.User.CampaignUsers.Where(CU => CU.RelationshipTypeID == 2);             
+        }
+        <h3 class="heading">
+            @U_Campaigns.Count() Supporters</h3>
+        @User_Campaigns.Count()
+        <!-- thumbs -->
+        <div class="List-thumbs clearfix sm">
+            @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in User_Campaigns)
+            {
+                                       
+                <figure>
+                    <figcaption class="clearfix">
+                        <strong>@cu.Campaign.Name</strong> <em>@cu.Campaign.Intro</em>
+                    </figcaption>
+                    <a href="~/Campaigns/view/@cu.Campaign.CampaignID" class="thumb">
+                        <img src="@cu.Campaign.Avatar" alt="@cu.Campaign.Name" /></a>
+                </figure>
+            }
+        </div>
+        <!-- ends thumbs-->
+    </div>
+    <div id="Stats" class="UserMenu-Conent">
+        @{ Html.RenderPartial("Player"); }
+    </div>
+    <div id="Connections" class="UserMenu-Conent">
+        <h3 class="heading">
+            @Model.User.UserConnections.Count() Connections</h3>
+        <!-- thumbs -->
+        <div class="List-thumbs clearfix sm">
+            @foreach (Signyourself2012.Models.Ref_UserConnections uc in Model.User.UserConnections)
+            {
+                <figure>
+                    <figcaption class="clearfix">
+                        <strong>@uc.ConectedUser.UserName</strong> <em>@uc.ConectedUser.Profile.Blurb<em>
+                    </figcaption>
+                    <a href="~/Users/view/@uc.ConectedUser.UserId" class="thumb">
+                        <img src="@uc.ConectedUser.Profile.Avatar" alt="@uc.ConectedUser.UserName" /></a>
+                </figure>
+            }
+        </div>
+        <!-- ends thmbs-->
+    </div>
+    <div id="Media" class="UserMenu-Conent">
+        @{var files = Model.User.Files;}
+        <div id="mediaTabs">
+            <ul>
+                <li><a href="Music">Music</a></li>
+                <li><a href="Video">Video</a></li>
+                <li><a href="Pictures">Pictures</a></li>
+            </ul>
+            <div id="Music" class="MediaMenu-Conent">
+                <!-- heading -->
+                <div class="project-heading" style="display: inline-block">
+                    <h2>
+                        My Music</h2>
+                    <br />
+                </div>
+                <!-- ENDS heading -->
+                <div class="project-description">
+                    
+                </div>
+            </div>
+            <div id="Video" class="MediaMenu-Conent">
+                <!-- heading -->
+                <div class="project-heading">
+                    <h2>
+                        My Videos</h2>
+                    <br />
+                </div>
+                <!-- ENDS heading -->
+                <div class="project-description">
+                   
+                </div>
+            </div>
+            <div id="Pictures" class="MediaMenu-Conent">
+                @{ 
+                    var UserPics = files.Where(f => f.FileTypeId == 2);
+                }
+                <h2 class="project-heading">
+                    @UserPics.Count() Supporters</h2>
+                @UserPics.Count()
+                <!-- thumbs -->
+                <div class="List-thumbs clearfix sm">
+                    @foreach (Signyourself2012.Models.File pic in UserPics)
+                    {
+                        <figure>
+                            <figcaption class="clearfix">
+                                <strong>@pic.User.UserName</strong> <em>@pic.Description<em>
+                            </figcaption>
+                            <a href="#" class="thumb">
+                                <img src="@pic.ThumbnailUrl" alt="@pic.User.UserName" /></a>
+                        </figure>
+                    }
+                </div>
+                <!-- ends thumbs-->
+            </div>
+        </div>
+        <!-- End Tabs -->
+    </div>
+    <!-- ENDS Media -->
+</section>
+<div class="clearfix">
+</div>
+<br />
+<!-- Featured users -->
+@{Html.RenderPartial("_FeaturedUsers"); }
+<!-- ENDS Featured users -->
+<!-- Featured Campaigns -->
+@{Html.RenderPartial("_FeaturedCampaigns"); }
+<!-- ENDS Featured Campaigns -->
+<!-- ENDS MAIN -->

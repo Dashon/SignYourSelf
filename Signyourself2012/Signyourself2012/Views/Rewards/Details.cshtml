@@ -1,0 +1,68 @@
+﻿@model Signyourself2012.Models.Reward
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Reward</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RewardType.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RewardType.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Creator.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Minimum)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Minimum)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DeliveryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DeliveryDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxAvailable)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxAvailable)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Goal.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Goal.Name)
+    </div>
+</fieldset>
+<p>
+@{
+   
+}
+@Html.ActionLink("Remove", "Delete", new { id=Model.RewardID })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RewardID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

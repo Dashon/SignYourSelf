@@ -1,0 +1,29 @@
+﻿<section class="home-block">
+    <h2 class="home-block-heading">
+        <span>FEATURED USERS</span></h2>
+    <div class="one-fourth-thumbs clearfix">
+        @{ var db = new Signyourself2012.Models.SignYourselfEntities();
+           var F_Users = from fu in db.Ref_FeaturedUsers
+                         join u in db.Users on fu.UserID equals u.UserId
+                         select u;
+           var t = F_Users.Count();
+           if (F_Users.Count() > 0)
+           {
+               foreach (Signyourself2012.Models.User u in F_Users)
+               {
+                   
+                    
+            <figure>
+                <figcaption class="clearfix">
+                    <strong>@u.UserName</strong> <em>@u.Profile.Blurb</em>
+                </figcaption>
+                <a href="~/Users/view/@u.UserId" class="thumb">
+                    <img src="@u.Profile.Avatar" alt="@u.UserName" /></a>
+            </figure>
+               }
+           }
+        }
+    </div>
+    <div class="clearfix">
+    </div>
+</section>

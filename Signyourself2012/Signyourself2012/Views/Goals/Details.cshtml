@@ -1,0 +1,141 @@
+﻿@model Signyourself2012.Models.Goal
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Goal</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.GoalType.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GoalType.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Creator.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TargetNum)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TargetNum)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QtyMin)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QtyMin)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QtyMax)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QtyMax)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TargetDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TargetDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ExpDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ExpDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateCreated)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreated)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Approved)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Approved)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Private)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Private)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.YouTubeURL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.YouTubeURL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FBURL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FBURL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TwitterURL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TwitterURL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CurrentQTY)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CurrentQTY)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Campaign.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Campaign.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.GoalID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

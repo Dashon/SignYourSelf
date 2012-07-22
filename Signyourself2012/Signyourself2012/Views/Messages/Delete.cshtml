@@ -1,0 +1,74 @@
+﻿@model Signyourself2012.Models.Message
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Message</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateCreated)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreated)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Subject)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Subject)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Body)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Body)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.InReplyToMesssageId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InReplyToMesssageId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ToList)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ToList)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Read)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Read)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateRead)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateRead)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.User.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.User.UserName)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

@@ -1,0 +1,177 @@
+﻿@model Signyourself2012.Models.UserProfile
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script>
+    $(function () {
+        // run the currently selected effect
+        function runEffect() {
+            // get effect type from 
+            var selectedEffect = $("#effectTypes").val();
+
+            // most effect types need no options passed by default
+            var options = {};
+            // some effects have required parameters
+            if (selectedEffect === "scale") {
+                options = { percent: 0 };
+            } else if (selectedEffect === "size") {
+                options = { to: { width: 200, height: 60} };
+            }
+
+            // run the effect
+            $("#effect").hide(selectedEffect, options, 1000, callback);
+        };
+
+        // callback function to bring a hidden box back
+        function callback() {
+            setTimeout(function () {
+
+            }, 1000);
+        };
+
+        // set effect from select menu value
+        $("#button").click(function () {
+            runEffect();
+            return false;
+        });
+    });
+</script>
+
+
+<!-- MAIN -->
+		<section id="main">	
+			<div class="wrapper">
+            @section featured {
+				<!-- slider holder -->
+               
+				<div id="slider-holder" class="clearfix">
+					
+					<!-- slider -->
+			        <div class="flexslider home-slider">
+					  <ul class="slides">
+					    <li>
+					      <img src="~/Images/slides/02.jpg" alt="alt text" />
+					      <p class="flex-caption">Pellentesque habitant morbi  feugiat vitae.</p>
+					    </li>
+					  </ul>
+					</div>
+		        	<!-- ENDS slider -->
+		        	
+		        	<div class="home-slider-clearfix "></div>
+		        	
+		        	<!-- Headline -->
+		        	<div id="headline">
+                    <p>@Html.DisplayFor(model => model.Avatar)</p>
+		        		<h1>@Html.DisplayFor(model => model.UserName)</h1>
+                        <h2> @Html.DisplayFor(model => model.FirstName)  @Html.DisplayFor(model => model.Middle)  @Html.DisplayFor(model => model.LastName)</h2>
+                        <h3>@Html.DisplayFor(model => model.Title)</h3>
+                        <p>@Html.DisplayFor(model => model.DOB)</p>
+		        		<p>@Html.DisplayFor(model => model.Blurb)</p>
+                        <p>@Html.DisplayFor(model => model.Skills)</p>
+                        <p>@Html.DisplayFor(model => model.Email)</p>
+		        		<p><a href="https://twitter.com/#!/ansimuz">My Website</a></p>
+                          <ul id="userSocial-bar">
+                        <li><a href="http://www.facebook.com" title="UserName Facebook" class="poshytip">
+                            <img src="~/Images/social/facebook.png" alt="Facebook" /></a></li>
+                        <li><a href="http://www.twitter.com" title="Follow my UserName" class="poshytip">
+                            <img src="~/Images/social/twitter.png" alt="twitter" /></a></li>
+                        <li><a href="http://www.google.com" title="Add UserName to the circle" class="poshytip">
+                            <img src="~/Images/social/plus.png" alt="Google plus" /></a></li>
+                    </ul>
+		        		<em id="corner"></em>
+		        	</div>
+		        	<!-- ENDS headline -->        	
+		        	
+				</div>
+				<!-- ENDS slider holder -->
+				}
+				
+                
+        <section class="MasterLeftSide-Panel">
+            <aside id="lil-sidebar">
+                <div class="block">
+                    <h4>
+                        Menu</h4>
+                    <ul class="UserMenu-block">
+                        <li class="home"><a href="#Home">Main</a></li>
+                        <li class="updates"><a href="#Updates">Updates</a></li>
+                        <li class="projects"><a href="#Projects">Projects</a></li>
+                        <li class="stats"><a href="#Stats">Stats</a></li>
+                        <li class="connects"><a href="#Comments">Connections</a></li>
+                        <li class="fans"><a href="#Comments">Meet My Fans</a></li>
+                        <li class="comments"><a href="#Comments">Comments</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+        <section class="MasterRight-panel">
+            <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <ul class="UserMenu-block">
+                    <li class="home"><a href="#Home">Main</a></li>
+                    <li class="updates"><a href="#Updates">Updates</a></li>
+                    <li class="projects"><a href="#Projects">Projects</a></li>
+                    <li class="stats"><a href="#Stats">Stats</a></li>
+                    <li class="connects"><a href="#Comments">Connections</a></li>
+                    <li class="fans"><a href="#Comments">Meet My Fans</a></li>
+                    <li class="comments"><a href="#Comments">Comments</a></li>
+                </ul>
+            </div>
+        </section>
+
+				<!-- Featured users -->
+	        	<section class="home-block" >
+	        		<h2 class="home-block-heading"><span>FEATURED USERS</span></h2>
+	        		<div class="one-third-thumbs clearfix" >
+	        			<figure>
+		        		<figure class="last">
+		        			<figcaption>
+	        					<strong>Pellentesque habitant morbi</strong>
+	        					<span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae.</span>
+	        					<em>December 08, 2011</em>
+	        					<a href="single.html" class="opener"></a>
+			        		</figcaption>
+			        		
+			        		<a href="single.html"  class="thumb"><img src="~/Images/dummies/featured-6.jpg" alt="Alt text" /></a>
+		        		</figure>
+		        		
+		        		
+	        		</div>
+	        	</section>
+	        	<!-- ENDS Featured users -->
+	        	
+	        	
+	        	<!-- Featured Projects -->
+	        	<section class="home-block">
+	        		<h2 class="home-block-heading"><span>FEATURED PROJECTS</span></h2>
+	        		<div class="one-fourth-thumbs clearfix">
+	        			
+		        		<figure class="last">
+		        			<figcaption>
+	        					<strong>Pellentesque habitant morbi</strong>
+	        					<span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae.</span>
+	        					<em>December 08, 2011</em>
+	        					<a href="single.html" class="opener"></a>
+			        		</figcaption>
+			        		
+			        		<a href="single.html"  class="thumb"><img src="~/Images/dummies/featured-10.jpg" alt="Alt text" /></a>
+		        		</figure>
+		        		
+		        		<a href="#" class="more-link right">More projects  &#8594;</a>
+		        		
+		        		
+		        		
+	        		</div>
+	        		
+	        		
+	        	</section>
+	        	<!-- ENDS Featured Projects -->
+	        		        	
+			</div>
+		</section>
+		<!-- ENDS MAIN -->
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

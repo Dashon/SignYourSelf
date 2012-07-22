@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Signyourself2012.Models.Ref_CampaignUsers>
+@{ var db = new Signyourself2012.Models.SignYourselfEntities();}
+@{ 
+    var Campaign_Supporters = Model.Where(CS => CS.RelationshipTypeID == 2);
+}
+<h2 class="project-heading">
+    @Campaign_Supporters.Count() Supporters</h2>
+<!-- thumbs -->
+<div class="List-thumbs clearfix sm">
+    @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in Campaign_Supporters)
+    {
+        <figure>
+            <figcaption class="clearfix">
+                <strong>@cu.User.UserName</strong> <em>@cu.User.<em>
+            </figcaption>
+            <a href="~/Users/view/@cu.UserID" class="thumb">
+                <img src="@cu.User.Profile.Avatar" alt="@cu.User.UserName" /></a>
+        </figure>
+    }

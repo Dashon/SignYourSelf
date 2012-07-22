@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SignYourself" Class="SignyourselfDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=trxt2lu1jo.database.windows.net;Initial Catalog=SignYourself;User ID=signyouradmin" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SignYourselfConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Accounts" Member="Accounts">
+    <Type Name="Account">
+      <Column Name="AccountID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateClosed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CurrentBalance" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Account_Campaign" Member="Campaigns" ThisKey="AccountID" OtherKey="AccountId" Type="Campaign" />
+      <Association Name="Account_Transaction" Member="Transactions" ThisKey="AccountID" OtherKey="AccountID" Type="Transaction" />
+      <Association Name="UserProfile_Account" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Activity" Member="Activities">
+    <Type Name="Activity">
+      <Column Name="ActivityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="itemID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ActivityType_Activity" Member="ActivityType" ThisKey="ActivityTypeID" OtherKey="ActivityTypeID" Type="ActivityType" IsForeignKey="true" />
+      <Association Name="UserProfile_Activity" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ActivityTypes" Member="ActivityTypes">
+    <Type Name="ActivityType">
+      <Column Name="ActivityTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="ActivityType_Activity" Member="Activities" ThisKey="ActivityTypeID" OtherKey="ActivityTypeID" Type="Activity" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Album" Member="Albums">
+    <Type Name="Album">
+      <Column Name="AlbumId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AlbumTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PrivacyLevelId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Album_Ref_AlbumFile" Member="Ref_AlbumFiles" ThisKey="AlbumId" OtherKey="AlbumID" Type="Ref_AlbumFile" />
+      <Association Name="Album_Ref_AlbumTag" Member="Ref_AlbumTags" ThisKey="AlbumId" OtherKey="AlbumID" Type="Ref_AlbumTag" />
+      <Association Name="Album_Ref_CampaignAlbum" Member="Ref_CampaignAlbums" ThisKey="AlbumId" OtherKey="AlbumID" Type="Ref_CampaignAlbum" />
+      <Association Name="Album_Ref_UserAlbum" Member="Ref_UserAlbums" ThisKey="AlbumId" OtherKey="AlbumID" Type="Ref_UserAlbum" />
+      <Association Name="AlbumType_Album" Member="AlbumType" ThisKey="AlbumTypeID" OtherKey="AlbumTypeID" Type="AlbumType" IsForeignKey="true" />
+      <Association Name="PrivacyLevel_Album" Member="PrivacyLevel" ThisKey="PrivacyLevelId" OtherKey="PrivacyLevelID" Type="PrivacyLevel" IsForeignKey="true" />
+      <Association Name="UserProfile_Album" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AlbumTypes" Member="AlbumTypes">
+    <Type Name="AlbumType">
+      <Column Name="AlbumTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="AlbumType_Album" Member="Albums" ThisKey="AlbumTypeID" OtherKey="AlbumTypeID" Type="Album" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Campaign_Users_RelationshipTypes" Member="Campaign_Users_RelationshipTypes">
+    <Type Name="Campaign_Users_RelationshipType">
+      <Column Name="RelationshipTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Campaign_Users_RelationshipType_Ref_CampaignUser" Member="Ref_CampaignUsers" ThisKey="RelationshipTypeID" OtherKey="RelationshipTypeID" Type="Ref_CampaignUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CampaignComments" Member="CampaignComments">
+    <Type Name="CampaignComment">
+      <Column Name="CampaignCommentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InReplyTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isSpam" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Spaminess" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ReplyEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Campaign_CampaignComment" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CampaignReviews" Member="CampaignReviews">
+    <Type Name="CampaignReview">
+      <Column Name="CampaignReviewID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InReplyTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PayLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Cost" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Rating" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ReplyEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Campaign_CampaignReview" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Campaigns" Member="Campaigns">
+    <Type Name="Campaign">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CampaignTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Appoved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="URL" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="MainFileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GoalFileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SupportersFileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AccountId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GenreID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Intro" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SusURL" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="Campaign_CampaignComment" Member="CampaignComments" ThisKey="CampaignID" OtherKey="CampaignID" Type="CampaignComment" />
+      <Association Name="Campaign_CampaignReview" Member="CampaignReviews" ThisKey="CampaignID" OtherKey="CampaignID" Type="CampaignReview" />
+      <Association Name="Campaign_CampaignUpdate" Member="CampaignUpdates" ThisKey="CampaignID" OtherKey="CampaignID" Type="CampaignUpdate" />
+      <Association Name="Campaign_Ref_CampaignAlbum" Member="Ref_CampaignAlbums" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_CampaignAlbum" />
+      <Association Name="Campaign_Ref_CampaignGoal" Member="Ref_CampaignGoals" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_CampaignGoal" />
+      <Association Name="Campaign_Ref_CampaignLink" Member="Ref_CampaignLinks" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_CampaignLink" />
+      <Association Name="Campaign_Ref_CampaignTag" Member="Ref_CampaignTags" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_CampaignTag" />
+      <Association Name="Campaign_Ref_CampaignUser" Member="Ref_CampaignUsers" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_CampaignUser" />
+      <Association Name="Campaign_Ref_FeaturedCampaign" Member="Ref_FeaturedCampaigns" ThisKey="CampaignID" OtherKey="CampaignID" Type="Ref_FeaturedCampaign" />
+      <Association Name="Account_Campaign" Member="Account" ThisKey="AccountId" OtherKey="AccountID" Type="Account" IsForeignKey="true" />
+      <Association Name="CampaignType_Campaign" Member="CampaignType" ThisKey="CampaignTypeId" OtherKey="CampaignTypeID" Type="CampaignType" IsForeignKey="true" />
+      <Association Name="File_Campaign" Member="File" ThisKey="MainFileID" OtherKey="FileID" Type="File" IsForeignKey="true" />
+      <Association Name="File_Campaign1" Member="File1" ThisKey="GoalFileID" OtherKey="FileID" Type="File" IsForeignKey="true" />
+      <Association Name="File_Campaign2" Member="File2" ThisKey="SupportersFileID" OtherKey="FileID" Type="File" IsForeignKey="true" />
+      <Association Name="Genre_Campaign" Member="Genre" ThisKey="GenreID" OtherKey="ID" Type="Genre" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserProfile_Campaign" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CampaignTypes" Member="CampaignTypes">
+    <Type Name="CampaignType">
+      <Column Name="CampaignTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="CampaignType_Campaign" Member="Campaigns" ThisKey="CampaignTypeID" OtherKey="CampaignTypeId" Type="Campaign" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CampaignUpdates" Member="CampaignUpdates">
+    <Type Name="CampaignUpdate">
+      <Column Name="CampaignUpdateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InReplyTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DonateLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LikeLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Campaign_CampaignUpdate" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Comments" Member="Comments">
+    <Type Name="Comment">
+      <Column Name="CommentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InReplyTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="UserProfile_Comment" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Files" Member="Files">
+    <Type Name="File">
+      <Column Name="FileID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="FileTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Url" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ThumbnailUrl" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsAlbumCover" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Rating" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="LinkSourceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="File_Campaign" Member="Campaigns" ThisKey="FileID" OtherKey="MainFileID" Type="Campaign" />
+      <Association Name="File_Campaign1" Member="Campaigns1" ThisKey="FileID" OtherKey="GoalFileID" Type="Campaign" />
+      <Association Name="File_Campaign2" Member="Campaigns2" ThisKey="FileID" OtherKey="SupportersFileID" Type="Campaign" />
+      <Association Name="File_Ref_AlbumFile" Member="Ref_AlbumFiles" ThisKey="FileID" OtherKey="FileID" Type="Ref_AlbumFile" />
+      <Association Name="File_Ref_CampaignLink" Member="Ref_CampaignLinks" ThisKey="FileID" OtherKey="LinkID" Type="Ref_CampaignLink" />
+      <Association Name="File_Ref_FileTag" Member="Ref_FileTags" ThisKey="FileID" OtherKey="FileID" Type="Ref_FileTag" />
+      <Association Name="File_Ref_UserLink" Member="Ref_UserLinks" ThisKey="FileID" OtherKey="LinkID" Type="Ref_UserLink" />
+      <Association Name="FileType_File" Member="FileType" ThisKey="FileTypeId" OtherKey="FileTypeID" Type="FileType" IsForeignKey="true" />
+      <Association Name="LinkSource_File" Member="LinkSource" ThisKey="LinkSourceId" OtherKey="LinkTypeID" Type="LinkSource" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="UserProfile_File" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FileTypes" Member="FileTypes">
+    <Type Name="FileType">
+      <Column Name="FileTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="FileType_File" Member="Files" ThisKey="FileTypeID" OtherKey="FileTypeId" Type="File" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Genres" Member="Genres">
+    <Type Name="Genre">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Genre_Campaign" Member="Campaigns" ThisKey="ID" OtherKey="GenreID" Type="Campaign" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Goals" Member="Goals">
+    <Type Name="Goal">
+      <Column Name="GoalID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="GoalTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TargetNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QtyMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QtyMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TargetDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ExpDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Private" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="YouTubeURL" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FBURL" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TwitterURL" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CurrentQTY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Goal_Ref_CampaignGoal" Member="Ref_CampaignGoals" ThisKey="GoalID" OtherKey="GoalID" Type="Ref_CampaignGoal" />
+      <Association Name="Goal_Ref_GoalReward" Member="Ref_GoalRewards" ThisKey="GoalID" OtherKey="GoalID" Type="Ref_GoalReward" />
+      <Association Name="GoalType_Goal" Member="GoalType" ThisKey="GoalTypeID" OtherKey="GoalTypeID" Type="GoalType" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserProfile_Goal" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GoalTypes" Member="GoalTypes">
+    <Type Name="GoalType">
+      <Column Name="GoalTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="GoalType_Goal" Member="Goals" ThisKey="GoalTypeID" OtherKey="GoalTypeID" Type="Goal" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LinkSources" Member="LinkSources">
+    <Type Name="LinkSource">
+      <Column Name="LinkTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WebsiteName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="HomeURL" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="LinkSource_File" Member="Files" ThisKey="LinkTypeID" OtherKey="LinkSourceId" Type="File" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Messages" Member="Messages">
+    <Type Name="Message">
+      <Column Name="MessageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Subject" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Body" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="InReplyToMesssageId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ToList" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="[Read]" Member="Read" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DateRead" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="UserProfile_Message" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PrivacyLevels" Member="PrivacyLevels">
+    <Type Name="PrivacyLevel">
+      <Column Name="PrivacyLevelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="PrivacyLevel_Album" Member="Albums" ThisKey="PrivacyLevelID" OtherKey="PrivacyLevelId" Type="Album" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Products" Member="Products">
+    <Type Name="Product">
+      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProductTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="ItemID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QTY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Product_Purchase" Member="Purchases" ThisKey="ProductID" OtherKey="ProductID" Type="Purchase" />
+      <Association Name="ProductType_Product" Member="ProductType" ThisKey="ProductTypeID" OtherKey="ProductTypeID" Type="ProductType" IsForeignKey="true" />
+      <Association Name="UserProfile_Product" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductTypes" Member="ProductTypes">
+    <Type Name="ProductType">
+      <Column Name="ProductTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="InTokens" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ProductType_Product" Member="Products" ThisKey="ProductTypeID" OtherKey="ProductTypeID" Type="Product" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Purchases" Member="Purchases">
+    <Type Name="Purchase">
+      <Column Name="PurchaseID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Qty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Purchase_Transaction" Member="Transactions" ThisKey="PurchaseID" OtherKey="PurchaseID" Type="Transaction" />
+      <Association Name="Product_Purchase" Member="Product" ThisKey="ProductID" OtherKey="ProductID" Type="Product" IsForeignKey="true" />
+      <Association Name="UserProfile_Purchase" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_AlbumFiles" Member="Ref_AlbumFiles">
+    <Type Name="Ref_AlbumFile">
+      <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FileID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="File_Ref_AlbumFile" Member="File" ThisKey="FileID" OtherKey="FileID" Type="File" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Album_Ref_AlbumFile" Member="Album" ThisKey="AlbumID" OtherKey="AlbumId" Type="Album" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_AlbumTags" Member="Ref_AlbumTags">
+    <Type Name="Ref_AlbumTag">
+      <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Album_Ref_AlbumTag" Member="Album" ThisKey="AlbumID" OtherKey="AlbumId" Type="Album" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Tag_Ref_AlbumTag" Member="Tag" ThisKey="TagID" OtherKey="TagID" Type="Tag" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_CampaignAlbums" Member="Ref_CampaignAlbums">
+    <Type Name="Ref_CampaignAlbum">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Campaign_Ref_CampaignAlbum" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Album_Ref_CampaignAlbum" Member="Album" ThisKey="AlbumID" OtherKey="AlbumId" Type="Album" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_CampaignGoals" Member="Ref_CampaignGoals">
+    <Type Name="Ref_CampaignGoal">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GoalID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Campaign_Ref_CampaignGoal" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Goal_Ref_CampaignGoal" Member="Goal" ThisKey="GoalID" OtherKey="GoalID" Type="Goal" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_CampaignLinks" Member="Ref_CampaignLinks">
+    <Type Name="Ref_CampaignLink">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LinkID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Campaign_Ref_CampaignLink" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="File_Ref_CampaignLink" Member="File" ThisKey="LinkID" OtherKey="FileID" Type="File" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_CampaignTags" Member="Ref_CampaignTags">
+    <Type Name="Ref_CampaignTag">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Campaign_Ref_CampaignTag" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" />
+      <Association Name="Tag_Ref_CampaignTag" Member="Tag" ThisKey="TagID" OtherKey="TagID" Type="Tag" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_CampaignUsers" Member="Ref_CampaignUsers">
+    <Type Name="Ref_CampaignUser">
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RelationshipTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="AddedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Campaign_Ref_CampaignUser" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Campaign_Users_RelationshipType_Ref_CampaignUser" Member="Campaign_Users_RelationshipType" ThisKey="RelationshipTypeID" OtherKey="RelationshipTypeID" Type="Campaign_Users_RelationshipType" IsForeignKey="true" />
+      <Association Name="UserProfile_Ref_CampaignUser" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_FeaturedCampaigns" Member="Ref_FeaturedCampaigns">
+    <Type Name="Ref_FeaturedCampaign">
+      <Column Name="FeaturedCampaignID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CampaignID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Campaign_Ref_FeaturedCampaign" Member="Campaign" ThisKey="CampaignID" OtherKey="CampaignID" Type="Campaign" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_FileTags" Member="Ref_FileTags">
+    <Type Name="Ref_FileTag">
+      <Column Name="FileID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="File_Ref_FileTag" Member="File" ThisKey="FileID" OtherKey="FileID" Type="File" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Tag_Ref_FileTag" Member="Tag" ThisKey="TagID" OtherKey="TagID" Type="Tag" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_GoalRewards" Member="Ref_GoalRewards">
+    <Type Name="Ref_GoalReward">
+      <Column Name="GoalID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RewardID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Goal_Ref_GoalReward" Member="Goal" ThisKey="GoalID" OtherKey="GoalID" Type="Goal" IsForeignKey="true" />
+      <Association Name="Reward_Ref_GoalReward" Member="Reward" ThisKey="RewardID" OtherKey="RewardID" Type="Reward" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_UserAlbums" Member="Ref_UserAlbums">
+    <Type Name="Ref_UserAlbum">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Album_Ref_UserAlbum" Member="Album" ThisKey="AlbumID" OtherKey="AlbumId" Type="Album" IsForeignKey="true" />
+      <Association Name="UserProfile_Ref_UserAlbum" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ref_UserLinks" Member="Ref_UserLinks">
+    <Type Name="Ref_UserLink">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LinkID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="File_Ref_UserLink" Member="File" ThisKey="LinkID" OtherKey="FileID" Type="File" IsForeignKey="true" />
+      <Association Name="UserProfile_Ref_UserLink" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Rewards" Member="Rewards">
+    <Type Name="Reward">
+      <Column Name="RewardID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RewardTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Minimum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="MaxAvailable" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Reward_Ref_GoalReward" Member="Ref_GoalRewards" ThisKey="RewardID" OtherKey="RewardID" Type="Ref_GoalReward" />
+      <Association Name="RewardType_Reward" Member="RewardType" ThisKey="RewardTypeID" OtherKey="RewardTypeID" Type="RewardType" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserProfile_Reward" Member="UserProfile" ThisKey="UserID" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RewardTypes" Member="RewardTypes">
+    <Type Name="RewardType">
+      <Column Name="RewardTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="RewardType_Reward" Member="Rewards" ThisKey="RewardTypeID" OtherKey="RewardTypeID" Type="Reward" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tags" Member="Tags">
+    <Type Name="Tag">
+      <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Tag" Member="Tag1" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Tag_Ref_AlbumTag" Member="Ref_AlbumTags" ThisKey="TagID" OtherKey="TagID" Type="Ref_AlbumTag" />
+      <Association Name="Tag_Ref_CampaignTag" Member="Ref_CampaignTags" ThisKey="TagID" OtherKey="TagID" Type="Ref_CampaignTag" />
+      <Association Name="Tag_Ref_FileTag" Member="Ref_FileTags" ThisKey="TagID" OtherKey="TagID" Type="Ref_FileTag" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Transactions" Member="Transactions">
+    <Type Name="Transaction">
+      <Column Name="PurchaseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="AccountID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TransactionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Account_Transaction" Member="Account" ThisKey="AccountID" OtherKey="AccountID" Type="Account" IsForeignKey="true" />
+      <Association Name="Purchase_Transaction" Member="Purchase" ThisKey="PurchaseID" OtherKey="PurchaseID" Type="Purchase" IsForeignKey="true" />
+      <Association Name="TransactionType_Transaction" Member="TransactionType" ThisKey="TransactionTypeID" OtherKey="TransactionTypeID" Type="TransactionType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TransactionTypes" Member="TransactionTypes">
+    <Type Name="TransactionType">
+      <Column Name="TransactionTypeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="TransactionType_Transaction" Member="Transactions" ThisKey="TransactionTypeID" OtherKey="TransactionTypeID" Type="Transaction" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAddr" Member="UserAddrs">
+    <Type Name="UserAddr">
+      <Column Name="UserAddrID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Add1" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Add2" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
+      <Column Name="Zip" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Cell" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Association Name="UserProfile_UserAddr" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfile" Member="UserProfiles">
+    <Type Name="UserProfile">
+      <Column Name="Email" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Blurb" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Skills" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Middle" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DOB" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Avatar" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="UserProfile_Account" Member="Accounts" ThisKey="UserId" OtherKey="UserID" Type="Account" />
+      <Association Name="UserProfile_Activity" Member="Activities" ThisKey="UserId" OtherKey="UserID" Type="Activity" />
+      <Association Name="UserProfile_Album" Member="Albums" ThisKey="UserId" OtherKey="UserId" Type="Album" />
+      <Association Name="UserProfile_Campaign" Member="Campaigns" ThisKey="UserId" OtherKey="UserId" Type="Campaign" />
+      <Association Name="UserProfile_Comment" Member="Comments" ThisKey="UserId" OtherKey="UserId" Type="Comment" />
+      <Association Name="UserProfile_File" Member="Files" ThisKey="UserId" OtherKey="UserId" Type="File" />
+      <Association Name="UserProfile_Goal" Member="Goals" ThisKey="UserId" OtherKey="UserID" Type="Goal" />
+      <Association Name="UserProfile_Message" Member="Messages" ThisKey="UserId" OtherKey="UserId" Type="Message" />
+      <Association Name="UserProfile_Product" Member="Products" ThisKey="UserId" OtherKey="UserID" Type="Product" />
+      <Association Name="UserProfile_Purchase" Member="Purchases" ThisKey="UserId" OtherKey="UserID" Type="Purchase" />
+      <Association Name="UserProfile_Ref_CampaignUser" Member="Ref_CampaignUsers" ThisKey="UserId" OtherKey="UserID" Type="Ref_CampaignUser" />
+      <Association Name="UserProfile_Ref_UserAlbum" Member="Ref_UserAlbums" ThisKey="UserId" OtherKey="UserID" Type="Ref_UserAlbum" />
+      <Association Name="UserProfile_Ref_UserLink" Member="Ref_UserLinks" ThisKey="UserId" OtherKey="UserID" Type="Ref_UserLink" />
+      <Association Name="UserProfile_Reward" Member="Rewards" ThisKey="UserId" OtherKey="UserID" Type="Reward" />
+      <Association Name="UserProfile_UserAddr" Member="UserAddrs" ThisKey="UserId" OtherKey="UserId" Type="UserAddr" />
+      <Association Name="UserProfile_webpages_Membership" Member="webpages_Memberships" ThisKey="UserId" OtherKey="UserId" Type="webpages_Membership" />
+      <Association Name="UserProfile_webpages_OAuthMembership" Member="webpages_OAuthMemberships" ThisKey="UserId" OtherKey="UserId" Type="webpages_OAuthMembership" />
+      <Association Name="UserProfile_webpages_UsersInRole" Member="webpages_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="webpages_UsersInRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_Membership" Member="webpages_Memberships">
+    <Type Name="webpages_Membership">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ConfirmationToken" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastPasswordFailureDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PasswordFailuresSinceLastSuccess" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordChangedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordVerificationToken" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="PasswordVerificationTokenExpirationDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MembershipID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="UserProfile_webpages_Membership" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_OAuthMembership" Member="webpages_OAuthMemberships">
+    <Type Name="webpages_OAuthMembership">
+      <Column Name="Provider" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProviderUserId" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="UserProfile_webpages_OAuthMembership" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_Roles" Member="webpages_Roles">
+    <Type Name="webpages_Role">
+      <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="webpages_Role_webpages_UsersInRole" Member="webpages_UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="webpages_UsersInRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_UsersInRoles" Member="webpages_UsersInRoles">
+    <Type Name="webpages_UsersInRole">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="webpages_Role_webpages_UsersInRole" Member="webpages_Role" ThisKey="RoleId" OtherKey="RoleId" Type="webpages_Role" IsForeignKey="true" />
+      <Association Name="UserProfile_webpages_UsersInRole" Member="UserProfile" ThisKey="UserId" OtherKey="UserId" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

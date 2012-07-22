@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Signyourself2012.Models.CampaignUpdate>
+@{var db = new Signyourself2012.Models.SignYourselfEntities();   }
+<h2 class="project-heading">
+    @Model.Count() Updates</h2>
+<!-- updates list -->
+<div id="comments-wrap">
+    <ol class="commentlist">
+        @{        var i = 1;
+                  var iclassify = "";
+                  foreach (Signyourself2012.Models.CampaignUpdate u in Model)
+                  {
+
+                      iclassify = (i % 2 == 0) ? "even" : "odd";
+                                    
+            <!-- update-->
+            <li class="comment even thread-@iclassify depth-1" id="li-comment-1">
+                <div id="@u.CampaignUpdateID" class="comment-body clearfix">
+                    <img alt='@u.User.UserName' src='@u.User.Profile..Avatar'
+                                            class='avatar avatar-35 photo' height='35' width='35' />
+                    <div class="comment-author vcard">
+                        @u.User.UserName
+                    </div>
+                    <div class="comment-meta commentmetadata">
+                        <span class="comment-date">@u.DateCreated.Subtract(DateTime.Today).TotalDays days ago
+                        </span><span class="comment-reply-link-wrap"><a class='comment-reply-link' href='replytocom=23#respond'
+                            onclick='return addComment.moveForm("comment-1", "1", "respond", "432")'>Reply</a>
+                        </span>
+                    </div>
+                    <div class="comment-inner">
+                        <p>@u.Content</p>
+                    </div>
+                </div>
+                <!-- ENDS Comment -->
+                @{                             
+                                       
+                      var replies = from cu in db.CampaignUpdates
+                                    where cu.CampaignUpdateID == u.CampaignUpdateID
+                                    select cu;
+                      var UpdateReplies = db.CampaignUpdates.Where(crp => crp.InReplyTo == u.CampaignUpdateID);
+
+                      if (UpdateReplies.Count() > 0)
+                      {
+                    <!-- child -->
+                    <ul class='children'>
+                        @{
+                          var m = 1;
+                          var mclassify = "";
+                          foreach (Signyourself2012.Models.CampaignUpdate r in UpdateReplies)
+                          {
+                              mclassify = (i % 2 == 0) ? "even" : "odd";
+                            <!-- comment-->
+                            <li class="comment even thread-@mclassify depth-1" id="li-comment-@m">
+                                <div id="comment_@r.CampaignUpdateID" class="comment-body clearfix">
+                                    <img alt='@r.User.UserName' src='@r.User.Profile.Avatar'
+                                            class='avatar avatar-35 photo' height='35' width='35' />
+                                    <div class="comment-author vcard">
+                                        @r.User.UserName</div>
+                                    <div class="comment-meta commentmetadata">
+                                        <span class="comment-date">@r.DateCreated.Subtract(DateTime.Today).TotalDays days ago
+                                        </span><span class="comment-reply-link-wrap"><a class='comment-reply-link' href='replytocom=23#respond'
+                                            onclick='return addComment.moveForm("comment-1", "1", "respond", "432")'>Reply</a></span>
+                                    </div>
+                                    <div class="comment-inner">
+                                        <p>@r.Content</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- ENDS Comment -->                                  
+                              m++;
+                          }
+                                            
+                        }
+                    </ul>
+                    <!-- ENDS child -->                               
+                      }
+                }
+            </li>
+                            
+                      i++;
+                  }
+        }
+    </ol>
+</div>
+<!-- ENDS comments list -->

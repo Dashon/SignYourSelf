@@ -1,0 +1,94 @@
+﻿@model Signyourself2012.Models.Campaign
+@{
+    ViewBag.Title = "Modify";
+}
+<section>
+    <ul id="CampaignModify_Menu">
+        <li>
+            <ol>
+                <li><a href="Rules">Rules</a></li>
+                <li><a href="Details">Details</a></li>
+                <li><a href="Goals">Goals</a></li>
+                <li><a href="Description">Description</a></li>
+                @*<li><a href="Members">Members</a></li>*@
+                <li><a href="Account">Account</a></li>
+                <li><a href="Submit">Submit</a></li>
+            </ol>
+        </li>
+        <li><a href="Preview">Preview</a></li>
+    </ul>
+</section>
+<section>
+    <div id="Rules">
+        <h2 class="page-heading">
+            <span>Rules and Regulations</span>
+        </h2>
+        <div class="CampaingModify_Content">
+        </div>
+        <aside>
+        </aside>
+    </div>
+    <div id="Details">
+        <h2 class="page-heading">
+            <span>Campaign Details</span>
+        </h2>
+        <div class="CampaingModify_Content">
+ @{Html.RenderPartial("CreateCampaign",Model);}
+        </div>
+        <aside>
+         @{Html.RenderPartial("CampaignCard",Model);}
+        </aside>
+    </div>
+    <div id="Goals">
+        <h2 class="page-heading">
+            <span>Campaign Goals</span>
+        </h2>
+        <div class="CampaingModify_Content">
+        @{Html.RenderPartial("CreateGoal",Model.Goals);}
+        </div>
+        <aside>
+        @{Html.RenderPartial("ViewGoals",Model.Goals);}
+        @{Html.RenderPartial("CampaignCreator",Model.Creator);}
+        </aside>
+    </div>
+    <div id="Description">
+        <h2 class="page-heading">
+            <span>Description and Media</span>
+        </h2>
+        <div class="CampaingModify_Content">
+         @{Html.RenderPartial("CampaignDescription",Model.Goals);}
+        </div>
+        <aside>
+         <h2 class="page-heading">
+            <span>Helpful Information</span>
+        </h2>
+        </aside>
+    </div>
+  @*  <div id="Members">
+        <h2 class="page-heading">
+            <span>Other Members Involved</span>
+        </h2>
+        <div class="CampaingModify_Content">
+        </div>
+        <aside>
+        </aside>
+    </div>*@
+    <div id="PayPal">
+        <h2 class="page-heading">
+            <span>PayPal Account Information</span>
+        </h2>
+        <div class="CampaingModify_Content">
+        @{Html.RenderPartial("CampaignDescription",Model.Account);}
+        </div>
+        <aside>
+        </aside>
+    </div>
+    <div id="Submit">
+        <h2 class="page-heading">
+            <span>Review and Submit</span>
+        </h2>
+        <div class="CampaingModify_Content">
+        @{Html.RenderPartial("CampaignPreview",Model.Account);}
+        </div>
+    </div>
+</section>

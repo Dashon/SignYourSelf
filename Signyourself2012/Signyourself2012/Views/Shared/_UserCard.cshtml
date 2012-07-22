@@ -1,0 +1,22 @@
+﻿@model Signyourself2012.Models.User
+<Section id="UserCard" class="UserCard 2x2">
+    <div>
+        <a href="/Profiles/details/?username=@Model.UserName">
+            <img class="UserAvatar" alt="User Avatar" src="@Model.Profile.Avatar" />
+            @Html.DisplayFor(model => model.UserName)</a>
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Profile.Location)</div>
+    <div>
+        @Html.DisplayFor(model => model.Profile.Blurb)</div>
+    <div>
+        @Html.LabelFor(model => model.LastActivityDate, "Last Login Date:") @Html.DisplayFor(model => model.LastActivityDate)
+    </div>
+    <ul id="userSocial-bar">
+        @*TODO social bar id Linking*@
+        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 1));}
+        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 2));}
+        <li><a href="mailto:@Model.Membership.Email" title="Email @Model.Membership.Email">
+            <img src="~/Images/social/plus.png" alt="Email Icon" /></a> </li>
+    </ul>
+</section>
