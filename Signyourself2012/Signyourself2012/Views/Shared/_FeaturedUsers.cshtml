@@ -12,14 +12,7 @@
                foreach (Signyourself2012.Models.User u in F_Users)
                {
                    
-                    
-            <figure>
-                <figcaption class="clearfix">
-                    <strong>@u.UserName</strong> <em>@u.Profile.Blurb</em>
-                </figcaption>
-                <a href="~/Users/view/@u.UserId" class="thumb">
-                    <img src="@u.Profile.Avatar" alt="@u.UserName" /></a>
-            </figure>
+                    Html.RenderPartial("_UserCard",u);
                }
            }
         }

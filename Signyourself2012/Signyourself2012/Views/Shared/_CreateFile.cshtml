@@ -1,0 +1,84 @@
+﻿@model Signyourself2012.Models.File
+
+<script src="~/Scripts/jquery-1.6.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<h2>
+    Create</h2>
+@using (Html.BeginForm((string)ViewBag.FormAction, "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>File</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FileTypeId, "FileType")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("FileTypeId", String.Empty)
+            @Html.ValidationMessageFor(model => model.FileTypeId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Url)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Url)
+            @Html.ValidationMessageFor(model => model.Url)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ThumbnailUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ThumbnailUrl)
+            @Html.ValidationMessageFor(model => model.ThumbnailUrl)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsAlbumCover)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsAlbumCover)
+            @Html.ValidationMessageFor(model => model.IsAlbumCover)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SortOrder)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SortOrder)
+            @Html.ValidationMessageFor(model => model.SortOrder)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinkSourceId, "LinkSource")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("LinkSourceId", String.Empty)
+            @Html.ValidationMessageFor(model => model.LinkSourceId)
+        </div>
+        <div>
+            <b>Please select File : </b>
+            <input type="file" id="FileUpload1" name="FileUpload1" /><br />
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

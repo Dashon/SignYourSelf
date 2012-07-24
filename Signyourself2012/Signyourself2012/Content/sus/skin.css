@@ -1,13 +1,13 @@
 /* GENERAL ------------------------------------------------------------*/
 
 body{
-	color: #888;
+	color: #000;
 }
 
 body,
 .home-block-heading span,
 .page-heading span{
-	background: #ebebe8;
+	background: #fff;
 }
 
 body a{ color: #444; }
@@ -16,18 +16,18 @@ body a:hover,
 #top-widget-holder a:hover,
 #nav>li>a:hover,
 .project-heading .launch:hover{
-	color: #ea4c88;
+	color: #ffa07a;
 }
 
 h1,h2,h3,h4,h5,h6{ color: #444444; }
 
 /* Selection colours (easy to forget) */
 
-::selection 	 	{background: #ea4c88; color: #fff; }
-::-moz-selection 	{background: #ea4c88; color: #fff; }
+::selection 	 	{background: #ffa07a; color: #fff; }
+::-moz-selection 	{background: #ffa07a; color: #fff; }
 
 img::-moz-selection	{background: transparent;}
-body {-webkit-tap-highlight-color: #ea4c88;}
+body {-webkit-tap-highlight-color: #ffa07a;}
 
 /* HEADER ------------------------------------------------------------*/
 
@@ -66,7 +66,7 @@ nav a{ color: #E2E0D7; }
 
 #nav>li ul li a:hover,
 #nav>li ul li:nth-child(even) a:hover{
-	background: #ea4c88;
+	background: #ffa07a;
 	color: #fff;
 }
 
@@ -78,12 +78,12 @@ nav a{ color: #E2E0D7; }
 
 .breadcrumbs{ color: #444; }
 
-.breadcrumbs a{ color: #888; }
+.breadcrumbs a{ color: #000; }
 
 
 /* CONTACT CONTENT ------------------------------------------------------------*/
 
-#lil-sidebar{ background: #e2e0d7; }
+#lil-sidebar{ background:#e2e0d7; }
 
 
 /* SIDEBAR ------------------------------------------------------------*/
@@ -95,38 +95,38 @@ nav a{ color: #E2E0D7; }
 /* HOME ------------------------------------------------------------*/
 
 .home-block figcaption{
-	background: #ea4c88;
+	background: #ffa07a;
 	color: #f1f1f1;
 }
 
 /* PORTFOLIO ------------------------------------------------------------*/
 
 .List-thumbs figcaption{
-	background: #ea4c88;
+	background: #ffa07a;
 	color: #f1f1f1;
 }
 
 /* PROJECT ------------------------------------------------------------*/
 
-.project-heading .launch{ color: #888; }
+.project-heading .launch{ color: #000; }
 
 .MasterRightSide-Panel strong{ color: #444; }
 
 .project-pager a{ color: #444; }
 
-.project-pager a:hover{ 	color: #ea4c88; }
+.project-pager a:hover{ 	color: #ffa07a; }
 
 /* RELATED PROJECTS ---------------------------------------------------*/
 
 .related-heading{ color: #444; }
 
-.related-projects .thumb{ background: #ea4c88 url(../../Images/plus.png) center center no-repeat; }
+.related-projects .thumb{ background: #ffa07a url(../../Images/plus.png) center center no-repeat; }
 
 
 /* BLOG ------------------------------------------------------------*/
 
 #posts-list .feature-image,
-#post-content .feature-image{ background: #ea4c88 url(../../Images/plus.png) center center no-repeat; }
+#post-content .feature-image{ background: #ffa07a url(../../Images/plus.png) center center no-repeat; }
 
 article .meta{
 	border-top: 1px solid #cecece;
@@ -144,7 +144,7 @@ article .meta{
 }
 
 .page-navigation a:hover{
-	background: #ea4c88;
+	background: #ffa07a;
 	color: #fff;
 }
 
@@ -154,7 +154,7 @@ article .meta{
 
 .pager li:hover a{
 	color: #fff;
-	background: #ea4c88;
+	background: #ffa07a;
 }
 
 .pager li.active a{ 
@@ -164,7 +164,7 @@ article .meta{
 
 /* SLIDER ------------------------------------------------------------*/
 
-#slider-holder #headline{ background: #e2e0d7; }
+#slider-holder #headline{ background:#e2e0d7;  }
 
 
 

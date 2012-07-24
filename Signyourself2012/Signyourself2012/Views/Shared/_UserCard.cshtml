@@ -1,22 +1,51 @@
 ﻿@model Signyourself2012.Models.User
-<Section id="UserCard" class="UserCard 2x2">
-    <div>
-        <a href="/Profiles/details/?username=@Model.UserName">
-            <img class="UserAvatar" alt="User Avatar" src="@Model.Profile.Avatar" />
-            @Html.DisplayFor(model => model.UserName)</a>
-    </div>
-    <div>
-        @Html.DisplayFor(model => model.Profile.Location)</div>
-    <div>
-        @Html.DisplayFor(model => model.Profile.Blurb)</div>
-    <div>
-        @Html.LabelFor(model => model.LastActivityDate, "Last Login Date:") @Html.DisplayFor(model => model.LastActivityDate)
-    </div>
-    <ul id="userSocial-bar">
-        @*TODO social bar id Linking*@
-        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 1));}
-        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 2));}
-        <li><a href="mailto:@Model.Membership.Email" title="Email @Model.Membership.Email">
-            <img src="~/Images/social/plus.png" alt="Email Icon" /></a> </li>
-    </ul>
-</section>
+<div style="padding: 10px 10px 10px 10px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
+    background: #FAFAFA; border: 1px solid lightGrey; height=100%;
+    margin-bottom: 10px;" id="@Model.UserName" class="UserCard">
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td align="left" valign="top" style="width:72px">
+                    <a href="/Profiles/Details/?username=@Model.UserName">
+                        <img src="@Model.Profile.Avatar" height="72" width="72"
+                            border="0" style="border: 1px solid lightGrey;"></a>
+                </td>
+                <td align="left" valign="top" style="padding-left: 15px; font-weight: bold; font-size: 16px; vertical-align:top;">
+                    <a href="/Profiles/details/?username=@Model.UserName" style="color: #114A75; text-transform: capitalize;">
+                        @Html.DisplayFor(model => model.UserName)</a><br />
+                         @Html.DisplayFor(model => model.Profile.Blurb)
+                </td>
+            </tr>
+            <tr>
+                <td align="left" valign="middle" style="padding-left: 15px; text-transform: capitalize;
+                    font-size: 14px;">
+                   
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="left" valign="middle" style="text-transform: capitalize;
+                    font-size: 14px;">
+                    @Html.DisplayFor(model => model.Profile.Location)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul id="userSocial-bar">
+                        @*TODO social bar id Linking*@
+                        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 1));}
+                        @{Html.RenderPartial("_Weblinks", Model.Files.Where(f => f.FileTypeId == 2));}
+                        <li><a href="mailto:@Model.Membership.Email" title="Email @Model.Membership.Email">
+                            <img src="~/Images/social/plus.png" alt="Email Icon" /></a> </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <small style="text-align: left; font-style: italic; color: #999999; font-weight: normal;">
+                <span style="text-transform: capitalize;"> @Html.LabelFor(model => model.LastActivityDate, "Last Login Date:") @Html.DisplayFor(model => model.LastActivityDate)</span></small>
+    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

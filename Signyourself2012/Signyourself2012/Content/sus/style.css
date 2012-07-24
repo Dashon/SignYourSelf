@@ -1058,7 +1058,6 @@ position: relative;
 	-o-box-shadow: 2px 2px 0px rgba(0,0,0,.2);
 	box-shadow: 2px 2px 0px rgba(0,0,0,.2);
 	
-	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.8);
 }
 
 #headline h1{ 
@@ -1285,4 +1284,104 @@ fieldset {
 	background: #f5fafa url(../../Images/bullet2.gif) no-repeat;
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
+}
+
+
+
+/* addons */
+
+.CampaignCard {
+	display:block;
+	position:relative;
+	float:left;
+	font-size:11px;
+	width:225px;
+	text-align:center;
+	color:#FFFFFF;
+	background: url("http://spicyfund.com/demo/images2/bg_box.png") top no-repeat;
+	height: 365px;
+	padding:5px 0px 14px 0px;
+}
+.CampaignCard:hover {
+	background: url("http://spicyfund.com/demo/images2/bg_box_hover.gif") top no-repeat;
+}
+.CampaignCard h3 {
+	/*font-family:Arial, Helvetica, sans-serif;*/font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:14px;
+	text-align:left;
+	margin-left:20px;
+	padding:12px 10px 10px 0px;
+}
+.CampaignCard h3 a, .graybox a {
+	color:#000000;
+	text-decoration:none;
+}
+ .CampaignCard p {
+	color: #bdbdbd;
+	font-size: 14px;
+	margin: 0px 0;
+	text-align:left;
+	padding:0px 20px;
+}
+.CampaignCard small {
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffa07a;
+	display: block;
+}
+
+.progress {
+	width: 200px;
+	height: 13px;
+	background: url(images2/bg_barwhite.png) no-repeat;
+	position:absolute;
+	bottom:50px;
+	margin-left:12px;
+}
+.progreen {
+	width: 200px;
+	height: 13px;
+	background: url(images2/bg_bargreen.png) no-repeat left top;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+.CampaignStats {
+	position: absolute;
+	bottom: 30px;
+	left:0px;
+	color: #575757!important;
+	font-size: 11px!important;
+	font-weight: bold;
+	font-family: Arial;
+	width: 184px;
+	height:20px;
+}
+.CampaignStats .stleft {
+	float:left;
+	padding:2px 0px 0px 5px;
+	text-align:center;
+}
+.CampaignStats .stleft .spanf, .CampaignStats .stright .spanf {
+	font-size:10px !important;
+	font-weight:normal !important;
+}
+.CampaignStats .stright {
+	float: right;
+	padding-top:2px;
+	text-align:center;
+}
+
+
+#flag_div {
+	margin-left:15px;
+	margin-top:3px;
+	position:absolute;
+	bottom:50px;
+	text-align:left;
+	width: 200px;
+}
+#flag, #flagw, #flagsr {
+	float:left;
 }

@@ -41,9 +41,8 @@
     <Reference Include="DataAnnotationsExtensions.ClientValidation">
       <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Sus2012\bin\DotNetOpenAuth.Core.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\..\..\..\..\Day\Documents\My Web Sites\Sus2012\bin\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core.UI">
       <HintPath>..\packages\DotNetOpenAuth.Core.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.Core.UI.dll</HintPath>
@@ -95,7 +94,7 @@
       <HintPath>..\packages\microsoft-web-helpers.2.0.20505.2\lib\net40\Microsoft.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.WebPages.OAuth">
-      <HintPath>..\..\..\Sus2012\bin\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Day\Documents\My Web Sites\Sus2012\bin\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -2780,17 +2779,14 @@
     <Content Include="Views\Shared\_FeaturedCampaigns.cshtml" />
     <Content Include="Views\Profiles\Index.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />
-    <Content Include="Views\Profiles\Create.cshtml" />
     <Content Include="Views\Profiles\Edit.cshtml" />
     <Content Include="Views\Profiles\Delete.cshtml" />
     <Content Include="Views\Campaigns\Index.cshtml" />
     <Content Include="Views\Campaigns\Details.cshtml" />
-    <Content Include="Views\Campaigns\Create.cshtml" />
     <Content Include="Views\Campaigns\Edit.cshtml" />
     <Content Include="Views\Campaigns\Delete.cshtml" />
     <Content Include="Views\Goals\Index.cshtml" />
     <Content Include="Views\Goals\Details.cshtml" />
-    <Content Include="Views\Goals\Create.cshtml" />
     <Content Include="Views\Goals\Edit.cshtml" />
     <Content Include="Views\Goals\Delete.cshtml" />
     <Content Include="Views\Rewards\Index.cshtml" />
@@ -2856,12 +2852,11 @@
     <Content Include="Views\Shared\_UserCard.cshtml" />
     <Content Include="Views\Shared\_CampaignCard.cshtml" />
     <Content Include="Views\Shared\_UserCampaigns.cshtml" />
-    <Content Include="Views\Shared\_GoalCard-NoReviews.cshtml" />
+    <Content Include="Views\Shared\_GoalCard-NoRewards.cshtml" />
     <Content Include="Views\Shared\_GoalCard.cshtml" />
     <Content Include="Views\Shared\_CampaignGoals.cshtml" />
     <Content Include="Views\Shared\_SocialLinks.cshtml" />
     <Content Include="Views\Shared\_WebLinks.cshtml" />
-    <Content Include="Views\Shared\_CampaignUpdates.cshtml" />
     <Content Include="Views\Shared\_CampaignReviews.cshtml" />
     <Content Include="Views\Shared\_CampaignSupporters.cshtml" />
     <Content Include="Views\Shared\_CampaignComments.cshtml" />
@@ -2872,6 +2867,20 @@
     <Content Include="Views\Shared\_MusicGallery.cshtml" />
     <Content Include="Views\Shared\_UserConnections.cshtml" />
     <Content Include="Views\Shared\_UserSlider.cshtml" />
+    <Content Include="Views\Shared\_EditCampaign.cshtml" />
+    <Content Include="Views\Shared\_EditGoal.cshtml" />
+    <Content Include="Views\Shared\_CreateCampaign.cshtml" />
+    <Content Include="Views\Shared\_CreateCampaignUpdate.cshtml" />
+    <Content Include="Views\Shared\_CreateCampaignComment.cshtml" />
+    <Content Include="Views\Shared\_CreateUserComment.cshtml" />
+    <Content Include="Views\Shared\_EditGallery.cshtml" />
+    <Content Include="Views\Shared\_CreateFile.cshtml" />
+    <Content Include="Views\Shared\_CreateAlbum.cshtml" />
+    <Content Include="Views\Shared\_EditAlbum.cshtml" />
+    <Content Include="Views\Shared\_EditFile.cshtml" />
+    <Content Include="Views\Shared\_GoalRewards.cshtml" />
+    <Content Include="Views\Shared\_CampaignDescription.cshtml" />
+    <Content Include="Views\Shared\_BigSliderTEST.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -2889,7 +2898,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>31759</DevelopmentServerPort>
+          <DevelopmentServerPort>2551</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

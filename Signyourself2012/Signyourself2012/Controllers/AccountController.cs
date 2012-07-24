@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 using Signyourself2012.Models;
 using Microsoft.Web.WebPages.OAuth;
+using WebMatrix.WebData;
 
 namespace Signyourself2012.Controllers
 {
@@ -14,6 +16,7 @@ namespace Signyourself2012.Controllers
     public class AccountController : Controller
     {
 
+        private SignYourselfEntities db = new SignYourselfEntities();
         //
         // GET: /Account/Login
 
@@ -84,7 +87,7 @@ namespace Signyourself2012.Controllers
             string provider = Request.Form["provider"];
             if (provider != null)
             {
-                
+
                 OAuthWebSecurity.RequestAuthentication(provider, "~/Account/RegisterService");
                 return View(model);
             }
@@ -92,13 +95,26 @@ namespace Signyourself2012.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                var userid = Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus).ProviderUserKey;
 
-                if (createStatus == MembershipCreateStatus.Success)
+                if (createStatus == MembershipCreateStatus.Success && userid != null)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return RedirectToAction("Index", "Home");
-                }
+              
+                    // TODO make create profile method for 
+                   
+                        var profile = new Profile { UserId = (Guid)userid,
+                        LastUpdatedDate= DateTime.Now};
+                        db.Profiles.Add(profile);
+                        db.SaveChanges();
+                        return RedirectToAction("Edit", new RouteValueDictionary(
+                                                            new
+                                                                {
+                                                                    controller = "Profiles",
+                                                                    action = "Edit",
+                                                                    username = model.UserName
+                                                                }));
+                 }
                 else
                 {
                     ModelState.AddModelError("", ErrorCodeToString(createStatus));

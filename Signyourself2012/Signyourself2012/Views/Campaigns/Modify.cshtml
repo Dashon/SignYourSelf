@@ -33,35 +33,31 @@
             <span>Campaign Details</span>
         </h2>
         <div class="CampaingModify_Content">
- @{Html.RenderPartial("CreateCampaign",Model);}
+        @{Html.RenderPartial("_CreateCampaign", Model);}
         </div>
         <aside>
-         @{Html.RenderPartial("CampaignCard",Model);}
+         @{Html.RenderPartial("_CampaignCard", Model);}
         </aside>
     </div>
     <div id="Goals">
         <h2 class="page-heading">
             <span>Campaign Goals</span>
         </h2>
-        <div class="CampaingModify_Content">
-        @{Html.RenderPartial("CreateGoal",Model.Goals);}
-        </div>
-        <aside>
-        @{Html.RenderPartial("ViewGoals",Model.Goals);}
-        @{Html.RenderPartial("CampaignCreator",Model.Creator);}
-        </aside>
+        <div class="MasterLeft-panel">@{Html.RenderPartial("_CreateGoal");}</div>
+        <aside class="MasterRightSide-Panel">@{Html.RenderPartial("_CampaignGoals");}</aside>
     </div>
+
     <div id="Description">
         <h2 class="page-heading">
             <span>Description and Media</span>
         </h2>
-        <div class="CampaingModify_Content">
-         @{Html.RenderPartial("CampaignDescription",Model.Goals);}
+        <div class="MasterLeft-panel">
+         @{Html.RenderPartial("_CampaignDescription", Model);}
         </div>
         <aside>
-         <h2 class="page-heading">
+         <aside class="MasterRightSide-Panel">
             <span>Helpful Information</span>
-        </h2>
+        </aside>
         </aside>
     </div>
   @*  <div id="Members">
@@ -78,9 +74,9 @@
             <span>PayPal Account Information</span>
         </h2>
         <div class="CampaingModify_Content">
-        @{Html.RenderPartial("CampaignDescription",Model.Account);}
+        @{Html.RenderPartial("_CampaignDescription", Model);}
         </div>
-        <aside>
+        <aside class="MasterRightSide-Panel">
         </aside>
     </div>
     <div id="Submit">
@@ -88,7 +84,7 @@
             <span>Review and Submit</span>
         </h2>
         <div class="CampaingModify_Content">
-        @{Html.RenderPartial("CampaignPreview",Model.Account);}
+        @{Html.RenderAction("Details", "Campaigns");}
         </div>
     </div>
 </section>

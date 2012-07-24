@@ -1,0 +1,27 @@
+﻿@model Signyourself2012.Models.Reward
+@{
+    var k = 1;
+    var kclassify = "";
+    foreach (Signyourself2012.Models.Reward r in g.Rewards)
+    {
+        kclassify = (k % 2 == 0) ? "even" : "odd";
+
+    <div id="Reward_@r.RewardID" class="Reward_@kclassify">
+        <div>@r.RewardType.Name</div>
+        <div>@r.Description</div>
+        <div>
+            <p class="stats">
+                <span class="stleft">@r.Minimum
+                    <br>
+                    <span class="spanf">Goals</span></span> <span class="stright">@r.MaxAvailable
+                        <br>
+                        <span class="spanf">DAYS LEFT</span> </span>
+            </p>
+        </div>
+        <div>
+            Expected to be delivered on @r.DeliveryDate
+        </div>
+    </div>
+
+    }
+}

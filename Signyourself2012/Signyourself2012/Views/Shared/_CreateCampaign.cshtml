@@ -1,8 +1,5 @@
 ﻿@model Signyourself2012.Models.Campaign
 
-@{
-    ViewBag.Title = "Edit Campaign";
-}
  <script>
      $(function () {
          $("#EndDate").datepicker();
@@ -87,9 +84,6 @@
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

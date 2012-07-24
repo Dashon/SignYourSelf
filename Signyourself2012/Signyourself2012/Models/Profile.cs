@@ -15,9 +15,6 @@ namespace Signyourself2012.Models
     public partial class Profile
     {
         public System.Guid UserId { get; set; }
-        public string PropertyNames { get; set; }
-        public string PropertyValueStrings { get; set; }
-        public byte[] PropertyValueBinary { get; set; }
         public System.DateTime LastUpdatedDate { get; set; }
         public string Blurb { get; set; }
         public string Title { get; set; }
@@ -32,10 +29,12 @@ namespace Signyourself2012.Models
         public Nullable<int> MessagePrivacyLevelID { get; set; }
         public Nullable<int> CallPrivacyLevelID { get; set; }
         public Nullable<bool> IsDeactivated { get; set; }
+        public Nullable<int> EmailPrivacyLevelID { get; set; }
     
         public virtual User User { get; set; }
         public virtual PrivacyLevel PrivacyLevel { get; set; }
         public virtual PrivacyLevel MessagePrivacyLevel { get; set; }
         public virtual PrivacyLevel CallPrivacyLevel { get; set; }
+        public virtual PrivacyLevel PrivacyLevel3 { get; set; }
     }
 }

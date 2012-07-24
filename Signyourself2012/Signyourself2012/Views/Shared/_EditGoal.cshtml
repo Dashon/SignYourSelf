@@ -1,10 +1,7 @@
 ﻿@model Signyourself2012.Models.Goal
 
-@{
-    ViewBag.Title = "New Goal";
-}
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -12,7 +9,8 @@
     <fieldset>
         <legend>Goal</legend>
 
-
+        @Html.HiddenFor(model => model.GoalID)
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.GoalTypeID, "Goal Type")
         </div>
@@ -55,15 +53,38 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Private,"Make Private")
+            @Html.LabelFor(model => model.DateCreated)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.DateCreated)
+        </div>
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Private)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Private)
             @Html.ValidationMessageFor(model => model.Private)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Status)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CurrentQTY)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.CurrentQTY)
+        </div>
+
+       
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Save" />
         </p>
     </fieldset>
 }

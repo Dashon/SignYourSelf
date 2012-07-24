@@ -1,2 +1,33 @@
 ﻿@model Signyourself2012.Models.Goal
-
+<div class="CampaignCard" id="@Model.CampaignID">
+    <h3>
+        <a href="~/Campaigns/view/@Model.CampaignID" style="text-decoration: none;">
+            @Html.DisplayFor(model => model.Campaign.Name)</a></h3>
+    <div>
+        <a href="~/Campaigns/view/@Model.CampaignID">
+            <img class="p_img" src="@Model.Campaign.Avatar"
+                 alt="" width="190" height="150" title="@Html.DisplayFor(model => model.Campaign.Name)"></a>
+    </div>
+    <div style="margin: 3px 15px 0px 15px;">
+        <small style="text-align: left; font-style: normal; color: #7DBF0E; font-weight: normal;
+            font-size: 12px;"><span>By :</span> <a href="">
+                @Html.DisplayFor(model => model.Name)</a></small>
+    </div>
+    <p style="text-align: left; font-size: 13px; color: #A0A0A0;">
+        @Html.DisplayFor(model => model.Description)
+    </p>
+    <div class="progress">
+        <div class="progreen" style="width: 0%; max-width: 100%;">
+        </div>
+    </div>
+    <div>
+        <p class="stats">
+            <span class="stleft">@Html.DisplayFor(model => model.Rewards.Count())
+                <br>
+                <span class="spanf">Rewards</span></span> <span class="stright">@Html.DisplayFor(model => model.TargetDate.Subtract(DateTime.Today).TotalDays)
+                    <br>
+                    <span class="spanf">DAYS LEFT</span> </span>
+        </p>
+    </div>
+    @{Html.RenderPartial("_GoalRewards");}
+</div>

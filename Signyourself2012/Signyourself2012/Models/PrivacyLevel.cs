@@ -26,6 +26,7 @@ namespace Signyourself2012.Models
             this.CampaignEmails = new HashSet<Campaign>();
             this.Campaigns = new HashSet<Campaign>();
             this.Albums = new HashSet<Album>();
+            this.Profiles3 = new HashSet<Profile>();
         }
     
         public int PrivacyLevelID { get; set; }
@@ -42,5 +43,6 @@ namespace Signyourself2012.Models
         public virtual ICollection<Campaign> CampaignEmails { get; set; }
         public virtual ICollection<Campaign> Campaigns { get; set; }
         public virtual ICollection<Album> Albums { get; set; }
+        public virtual ICollection<Profile> Profiles3 { get; set; }
     }
 }

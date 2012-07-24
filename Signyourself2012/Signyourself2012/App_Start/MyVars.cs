@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Signyourself2012
 {
+
     public class MyVars
     {
         public const string currencyRegx = @"^\$?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$";

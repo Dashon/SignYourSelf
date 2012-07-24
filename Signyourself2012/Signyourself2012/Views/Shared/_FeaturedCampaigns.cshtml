@@ -10,16 +10,7 @@
            if (F_Campaigns.Count() > 0)
            {
                foreach (Signyourself2012.Models.Campaign c in F_Campaigns)
-               {
-                   
-                    
-            <figure>
-                <figcaption class="clearfix">
-                <strong>@c.Name</strong> <em>@c.Intro</em>
-                </figcaption>
-                <a href="~/Campaigns/view/@c.CampaignID" class="thumb">
-                    <img src="@c.Avatar" alt="@c.Name" /></a>
-            </figure>
+               { Html.RenderPartial("_CampaignCard", c);
                }
            }
         }

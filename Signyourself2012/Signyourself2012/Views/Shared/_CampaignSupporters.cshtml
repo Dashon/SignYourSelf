@@ -10,10 +10,7 @@
     @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in Campaign_Supporters)
     {
         <figure>
-            <figcaption class="clearfix">
-                <strong>@cu.User.UserName</strong> <em>@cu.User.<em>
-            </figcaption>
-            <a href="~/Users/view/@cu.UserID" class="thumb">
-                <img src="@cu.User.Profile.Avatar" alt="@cu.User.UserName" /></a>
+            Html.RenderPartial("_UserCard",cu.User);
         </figure>
     }
+    </div>
