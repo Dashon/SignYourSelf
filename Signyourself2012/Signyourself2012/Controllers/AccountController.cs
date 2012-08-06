@@ -100,10 +100,9 @@ namespace Signyourself2012.Controllers
                 if (createStatus == MembershipCreateStatus.Success && userid != null)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-              
                     // TODO make create profile method for 
                    
-                        var profile = new Profile { UserId = (Guid)userid,
+                        var profile = new Profile { User = db.Users.Single(u => u.UserId == (Guid)userid),
                         LastUpdatedDate= DateTime.Now};
                         db.Profiles.Add(profile);
                         db.SaveChanges();

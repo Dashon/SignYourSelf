@@ -47,7 +47,7 @@ namespace Signyourself2012.Controllers
         //
         // GET: /Campaigns/Create
          [Authorize]
-        public ActionResult Create()
+        public ActionResult Modify()
         {   ViewBag.CampaignTypeId = new SelectList(db.CampaignTypes, "CampaignTypeID", "Name");
             ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name");            
 
@@ -62,7 +62,7 @@ namespace Signyourself2012.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Campaign campaign)
+        public ActionResult Modify(Campaign campaign)
         {
             if (ModelState.IsValid)
             {

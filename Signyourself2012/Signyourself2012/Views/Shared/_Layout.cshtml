@@ -36,9 +36,9 @@
                         <img alt="SignYourself" height="30" id="SignYourself" style="margin-top: 6px" src="~/Images/suslogo.png"></a></li>
                     <li>
                         <input type="text" maxlength="50" id="Search" name="Search" title="Search" placeholder="Search" /></li>
-                    <li>@Html.ActionLink("BROWSE", "Index", "Home")</li>
-                    <li>@Html.ActionLink("FEATURES", "Features", "Home")</li>
-                    <li>@Html.ActionLink("ABOUT", "About", "Home")
+                    <li>@Html.ActionLink("Find Pros", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Discover Talent", "Features", "Home")</li>
+                    <li>@Html.ActionLink("Start Campaign ", "Modify", "Campaigns")
                         @*     <ul>
                             <li><a href="#">Submenu</a></li>
                             <li><a href="#">Submenu</a></li>
@@ -52,7 +52,7 @@
                 @if (WebSecurity.IsAuthenticated)
                 {
                     <p>
-                        Hello, <a class="username" href="~profiles/@WebSecurity.CurrentUserName" title="My Profile">@WebSecurity.CurrentUserName</a>!
+                        Hello, <a class="username" href="~/Profiles/@WebSecurity.CurrentUserName" title="My Profile">@WebSecurity.CurrentUserName</a>!
                     </p> <ul>
                         <li>@Html.ActionLink("My Dashboard", "Dashboard", "Account")</li>
                         <li>@Html.ActionLink("Logout", "Logoff", "Account")</li>
@@ -73,7 +73,7 @@
         @if (WebSecurity.IsAuthenticated)
         {
             <section style="display:none;">
-                <h4 class="alert_error" id="Alert" hidden="hidden">
+                <h4 class="alert_error" id="Alert" runat="server" hidden="hidden">
                     An Alert Message</h4>
             </section>
         }

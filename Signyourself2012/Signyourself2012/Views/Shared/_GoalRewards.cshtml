@@ -1,8 +1,8 @@
-﻿@model Signyourself2012.Models.Reward
+﻿@model IEnumerable<Signyourself2012.Models.Reward>
 @{
     var k = 1;
     var kclassify = "";
-    foreach (Signyourself2012.Models.Reward r in g.Rewards)
+    foreach (Signyourself2012.Models.Reward r in Model)
     {
         kclassify = (k % 2 == 0) ? "even" : "odd";
 

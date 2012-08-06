@@ -22,19 +22,6 @@ namespace Signyourself2012.Controllers
         }
 
         //
-        // GET: /Users/FB/5d
-
-        public ActionResult FB(int id = 0)
-        {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        //
         // GET: /Users/5
 
         public ActionResult Index(int id = 0)

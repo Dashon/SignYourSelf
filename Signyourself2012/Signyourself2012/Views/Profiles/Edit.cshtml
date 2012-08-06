@@ -11,10 +11,9 @@
 
     <fieldset>
         <legend>Profile</legend>
-        
-
+         @Html.HiddenFor(model => model.UserId)
         <div class="editor-label">
-            @Html.LabelFor(model => model.FirstName)
+            @Html.LabelFor(model => model.FirstName,"First Name")
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstName)
@@ -29,8 +28,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.LastName)
-        </div>
+            @Html.LabelFor(model => model.LastName) </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.LastName)
             @Html.ValidationMessageFor(model => model.LastName)

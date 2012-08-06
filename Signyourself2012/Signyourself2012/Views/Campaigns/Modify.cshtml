@@ -2,6 +2,15 @@
 @{
     ViewBag.Title = "Modify";
 }
+<script> 
+    $('#UserMenu a').click(function (e) {
+        e.preventDefault();
+        var divToActivate = '#' + $(this).attr('href'); // Store its target
+        $('.CampaingModify_Content:visible').hide(); // Hide any visible div with the class "content"
+        $(divToActivate).show(); // Show the target div  
+        
+    });
+</script>
 <section>
     <ul id="CampaignModify_Menu">
         <li>
@@ -9,6 +18,7 @@
                 <li><a href="Rules">Rules</a></li>
                 <li><a href="Details">Details</a></li>
                 <li><a href="Goals">Goals</a></li>
+                <li><a href="Rewards">Rewards</a></li>
                 <li><a href="Description">Description</a></li>
                 @*<li><a href="Members">Members</a></li>*@
                 <li><a href="Account">Account</a></li>
@@ -28,26 +38,41 @@
         <aside>
         </aside>
     </div>
-    <div id="Details">
+    <div id="Details" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>Campaign Details</span>
         </h2>
-        <div class="CampaingModify_Content">
-        @{Html.RenderPartial("_CreateCampaign", Model);}
+        <div>
+        @{Html.RenderPartial("_ModifyCampaign", Model);}
         </div>
         <aside>
          @{Html.RenderPartial("_CampaignCard", Model);}
         </aside>
     </div>
-    <div id="Goals">
+    <div id="Goals" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>Campaign Goals</span>
         </h2>
+        
         <div class="MasterLeft-panel">@{Html.RenderPartial("_CreateGoal");}</div>
-        <aside class="MasterRightSide-Panel">@{Html.RenderPartial("_CampaignGoals");}</aside>
+        <aside class="MasterRightSide-Panel">@{Html.RenderPartial("_CampaignGoals",Model.Goals);}</aside>
+    </div>
+    
+    <div id="Rewards" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Rewards</span>
+        </h2>
+        <div class="MasterLeft-panel">
+            @{Html.RenderPartial("_CreateReward");}
+        </div>
+        <aside>
+            <aside class="MasterRightSide-Panel">
+                <span>Helpful Information</span>
+            </aside>
+        </aside>
     </div>
 
-    <div id="Description">
+    <div id="Description" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>Description and Media</span>
         </h2>
@@ -60,7 +85,7 @@
         </aside>
         </aside>
     </div>
-  @*  <div id="Members">
+  @*  <div id="Members" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>Other Members Involved</span>
         </h2>
@@ -69,7 +94,7 @@
         <aside>
         </aside>
     </div>*@
-    <div id="PayPal">
+    <div id="PayPal" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>PayPal Account Information</span>
         </h2>
@@ -79,7 +104,7 @@
         <aside class="MasterRightSide-Panel">
         </aside>
     </div>
-    <div id="Submit">
+    <div id="Submit" class="CampaingModify_Content">
         <h2 class="page-heading">
             <span>Review and Submit</span>
         </h2>

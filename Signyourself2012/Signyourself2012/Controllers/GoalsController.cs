@@ -64,6 +64,11 @@ namespace Signyourself2012.Controllers
             {
                 try
                 {
+                    goal.Approved = true;
+                    goal.UserID = (Guid)Membership.GetUser().ProviderUserKey;
+                    goal.DateCreated = DateTime.Today;
+                    goal.Status = "Approved";
+                    
                     db.Goals.Add(goal);
                     db.SaveChanges();
                     ViewBag.Message = "Goals Saved";
@@ -89,7 +94,7 @@ namespace Signyourself2012.Controllers
         public ActionResult Edit(int id = 0)
         {
             Goal goal = db.Goals.Find(id);
-            Campaign campaign = db.Campaigns.Find(goal.CampaignID);
+            Campaign campaign = goal.Campaign;
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (goal == null)
@@ -107,7 +112,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Goal goal)
         {
-            Campaign campaign = db.Campaigns.Find(goal.CampaignID);
+            Campaign campaign = goal.Campaign;
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
@@ -135,7 +140,7 @@ namespace Signyourself2012.Controllers
         public ActionResult Delete(int id = 0)
         {
             Goal goal = db.Goals.Find(id);
-            Campaign campaign = db.Campaigns.Find(goal.CampaignID);
+            Campaign campaign = goal.Campaign;
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (goal == null)
@@ -153,7 +158,7 @@ namespace Signyourself2012.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Goal goal = db.Goals.Find(id);
-            Campaign campaign = db.Campaigns.Find(goal.CampaignID);
+            Campaign campaign = goal.Campaign;
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             goal.IsDeactivated = true;

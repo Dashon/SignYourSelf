@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Signyourself2012.Models;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -59,8 +60,8 @@ namespace Signyourself2012.Controllers
             }
             var providerUserKey = Membership.GetUser().ProviderUserKey;
             if (providerUserKey != null && profile.UserId != (Guid)providerUserKey) { return HttpNotFound(); }
-
            
+            
             ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", profile.UserId);
             return View(profile);
         }
@@ -72,18 +73,31 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Profile profile)
         {
-            if (profile.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            profile.User = db.Users.Single(u => u.UserId == (Guid)profile.UserId);
+            var providerUserKey = Membership.GetUser().ProviderUserKey;
+            if (providerUserKey != null && profile.UserId != (Guid)providerUserKey) { return HttpNotFound(); }
+            profile.LastUpdatedDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Entry(profile).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { username = profile.User.UserName });
+                }
+                catch (EntityException es)
+                {
+                    ViewBag.Message = es;
+                    return View(profile);
+                }
             }
             ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", profile.UserId);
             return View(profile);
         }
 
 
+      
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
