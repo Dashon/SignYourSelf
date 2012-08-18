@@ -1,0 +1,48 @@
+﻿@model Signyourself2012.Models.Campaign
+
+@{
+    ViewBag.Title = "New Campaign";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Create","Campaigns")) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Campaign</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CampaignTypeId, "CampaignType")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("CampaignTypeId", String.Empty)
+            @Html.ValidationMessageFor(model => model.CampaignTypeId)
+        </div>
+
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GenreID, "Genre")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("GenreID", String.Empty)
+            @Html.ValidationMessageFor(model => model.GenreID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

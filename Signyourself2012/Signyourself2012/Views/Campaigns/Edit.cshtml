@@ -1,149 +1,121 @@
-﻿@model Signyourself2012.Models.Campaign
-
+﻿@using Signyourself2012.Models
+@model Signyourself2012.Models.Campaign
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modify";
 }
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
 
-<h2>Edit</h2>
+        $('#CampaignModify_Menu a').click(function(e) {
+            e.preventDefault();
+            var divToActivate = '#' + $(this).attr('href'); // Store its target
+            $('.CampaingModify_Content:visible').hide(); // Hide any visible div with the class "content"
+            $(divToActivate).show(); // Show the target div  
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+        });
+    });
+</script>
+<section>
+    <ul id="CampaignModify_Menu">
+        <li>
+            <ol>
+                <li><a href="Rules">Rules</a></li>
+                <li><a href="Details">Details</a></li>
+                <li><a href="Goals">Goals</a></li>
+                <li><a href="Rewards">Rewards</a></li>
+                <li><a href="Description">Description</a></li>
+                @*<li><a href="Members">Members</a></li>*@
+                <li><a href="Account">Account</a></li>
+                <li><a href="Submit">Submit</a></li>
+            </ol>
+        </li>
+        <li><a href="Preview">Preview</a></li>
+    </ul>
+</section>
+<section>
+    <div id="Rules" class="CampaingModify_Content" style="display:block;">
+        <h2 class="page-heading">
+            <span>Rules and Regulations</span>
+        </h2>
+        <section class="MasterLeft-panel" >
+        </section>
+        <aside class="MasterRightSide-Panel">
+        </aside>
+    </div>
+    <div id="Details" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Campaign Details</span>
+        </h2>
+        <section class="MasterLeft-panel">
+        @{Html.RenderPartial("_EditCampaign", Model);}
+        </section>
+        <aside class="MasterRightSide-Panel">
+         @{Html.RenderPartial("_CampaignCard", Model);}
+        </aside>
+    </div>
+    <div id="Goals" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Campaign Goals</span>
+        </h2>
+        @{ var newgoal = new Goal();
+           newgoal.CampaignID = Model.CampaignID;}
+        <section class="MasterLeft-panel">@{Html.RenderPartial("_CreateGoal",newgoal);}</section>
+        <aside id="allGoals" class="MasterRightSide-Panel">@{Html.RenderPartial("_CampaignGoals",Model.Goals);}</aside>
+    </div>
+    
+    <div id="Rewards" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Rewards</span>
+        </h2>
+      
+    </div>
 
-    <fieldset>
-        <legend>Campaign</legend>
-
-        @Html.HiddenFor(model => model.CampaignID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+    <div id="Description" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Description and Media</span>
+        </h2>
+        <section class="MasterLeft-panel">
+         @{Html.RenderPartial("_CampaignDescription", Model);}
+        </section>
+        <aside>
+         <aside class="MasterRightSide-Panel">
+            <span>Helpful Information</span>
+        </aside>
+        </aside>
+    </div>
+  @*  <div id="Members" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Other Members Involved</span>
+        </h2>
+        <div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
+        <aside>
+        </aside>
+    </div>*@
+    <div id="Account" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>PayPal Account Information</span>
+        </h2>
+        <section class="MasterLeft-panel">
+            @{Html.RenderPartial("_CampaignDescription", Model);}
+        </section>
+        <aside class="MasterRightSide-Panel">
+        </aside>
+    </div>
+     <div id="Submit" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Review and Submit</span>
+        </h2>
+        <div>
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CampaignTypeId, "CampaignType")
+    </div>
+    <div id="Preview" class="CampaingModify_Content">
+        <h2 class="page-heading">
+            <span>Review and Submit</span>
+        </h2>
+        <div>
+        @{Html.RenderAction("Details", "Campaigns");}
         </div>
-        <div class="editor-field">
-            @Html.DropDownList("CampaignTypeId", String.Empty)
-            @Html.ValidationMessageFor(model => model.CampaignTypeId)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateCreated)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateCreated)
-            @Html.ValidationMessageFor(model => model.DateCreated)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.UserId, "Creator")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("UserId", String.Empty)
-            @Html.ValidationMessageFor(model => model.UserId)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Active)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Active)
-            @Html.ValidationMessageFor(model => model.Active)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Appoved)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Appoved)
-            @Html.ValidationMessageFor(model => model.Appoved)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.URL)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.URL)
-            @Html.ValidationMessageFor(model => model.URL)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Location)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Location)
-            @Html.ValidationMessageFor(model => model.Location)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.EndDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.EndDate)
-            @Html.ValidationMessageFor(model => model.EndDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.AccountId, "Account")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("AccountId", String.Empty)
-            @Html.ValidationMessageFor(model => model.AccountId)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.GenreID, "Genre")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("GenreID", String.Empty)
-            @Html.ValidationMessageFor(model => model.GenreID)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Intro)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Intro)
-            @Html.ValidationMessageFor(model => model.Intro)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SusURL)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SusURL)
-            @Html.ValidationMessageFor(model => model.SusURL)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    </div>
+</section>

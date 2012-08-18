@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class UserCommentsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /UserComments/
         [Authorize]
         public ActionResult Index()
         {
-            var usercomments = db.UserComments.Include(u => u.Author).Include(u => u.User);
+            var usercomments = _db.UserComments.Include(u => u.Author).Include(u => u.User);
             return View(usercomments.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            UserComment usercomment = db.UserComments.Find(id);
+            UserComment usercomment = _db.UserComments.Find(id);
             if (usercomment == null)
             {
                 return HttpNotFound();
@@ -41,8 +41,8 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            ViewBag.AuthorID = new SelectList(db.Users, "UserId", "UserName");
-            ViewBag.ReceiverID = new SelectList(db.Users, "UserId", "UserName");
+            ViewBag.AuthorID = new SelectList(_db.Users, "UserId", "UserName");
+            ViewBag.ReceiverID = new SelectList(_db.Users, "UserId", "UserName");
             return View();
         }
 
@@ -55,13 +55,13 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.UserComments.Add(usercomment);
-                db.SaveChanges();
+                _db.UserComments.Add(usercomment);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorID = new SelectList(db.Users, "UserId", "UserName", usercomment.AuthorID);
-            ViewBag.ReceiverID = new SelectList(db.Users, "UserId", "UserName", usercomment.ReceiverID);
+            ViewBag.AuthorID = new SelectList(_db.Users, "UserId", "UserName", usercomment.AuthorID);
+            ViewBag.ReceiverID = new SelectList(_db.Users, "UserId", "UserName", usercomment.ReceiverID);
             return View(usercomment);
         }
 
@@ -70,14 +70,14 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            UserComment usercomment = db.UserComments.Find(id);
+            UserComment usercomment = _db.UserComments.Find(id);
             if (usercomment.AuthorID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (usercomment == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorID = new SelectList(db.Users, "UserId", "UserName", usercomment.AuthorID);
-            ViewBag.ReceiverID = new SelectList(db.Users, "UserId", "UserName", usercomment.ReceiverID);
+            ViewBag.AuthorID = new SelectList(_db.Users, "UserId", "UserName", usercomment.AuthorID);
+            ViewBag.ReceiverID = new SelectList(_db.Users, "UserId", "UserName", usercomment.ReceiverID);
             return HttpNotFound();
         }
 
@@ -91,8 +91,8 @@ namespace Signyourself2012.Controllers
             if (usercomment.AuthorID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
-                db.Entry(usercomment).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(usercomment).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return HttpNotFound();
@@ -103,7 +103,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            UserComment usercomment = db.UserComments.Find(id);
+            UserComment usercomment = _db.UserComments.Find(id);
             if (usercomment.AuthorID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (usercomment == null)
             {
@@ -119,17 +119,17 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserComment usercomment = db.UserComments.Find(id);
+            UserComment usercomment = _db.UserComments.Find(id);
             if (usercomment.AuthorID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             usercomment.IsDeactivated = true;
-            db.Entry(usercomment).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(usercomment).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

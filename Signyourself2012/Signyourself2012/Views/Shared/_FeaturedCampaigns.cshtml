@@ -3,13 +3,12 @@
         <span>FEATURED CAMPAIGNS</span></h2>
     <div class="one-fourth-thumbs clearfix">
         @{ var db = new Signyourself2012.Models.SignYourselfEntities();
-           var F_Campaigns = from fc in db.Ref_FeaturedCampaigns
+           var fCampaigns = from fc in db.Ref_FeaturedCampaigns
                              join c in db.Campaigns on fc.CampaignID equals c.CampaignID
                              select c;
-           var t = F_Campaigns.Count();
-           if (F_Campaigns.Count() > 0)
+           if (fCampaigns.Any())
            {
-               foreach (Signyourself2012.Models.Campaign c in F_Campaigns)
+               foreach (Signyourself2012.Models.Campaign c in fCampaigns)
                { Html.RenderPartial("_CampaignCard", c);
                }
            }

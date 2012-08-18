@@ -207,6 +207,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Views\MetadataProvider.cs" />
     <Content Include="Content\sus\jquery.fileupload-ui.css" />
     <Content Include="Images\google.png" />
@@ -226,7 +227,6 @@
     <Compile Include="Controllers\GoalsController.cs" />
     <Compile Include="Controllers\HtmlPropertiesAttribute.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\RewardsController.cs" />
     <Compile Include="Controllers\UserCommentsController.cs" />
@@ -2775,7 +2775,7 @@
     <None Include="Scripts\superfish-1.4.8\images\.DS_Store" />
     <None Include="Scripts\superfish-1.4.8\js\.DS_Store" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\Account\Dashboard.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Shared\_FeaturedCampaigns.cshtml" />
     <Content Include="Views\Profiles\Index.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />
@@ -2783,13 +2783,13 @@
     <Content Include="Views\Profiles\Delete.cshtml" />
     <Content Include="Views\Campaigns\Index.cshtml" />
     <Content Include="Views\Campaigns\Details.cshtml" />
-    <Content Include="Views\Campaigns\Edit.cshtml" />
+    <Content Include="Views\Campaigns\Create.cshtml" />
     <Content Include="Views\Campaigns\Delete.cshtml" />
-    <Content Include="Views\Goals\Index.cshtml" />
+    <Content Include="Views\Goals\Admin.cshtml" />
     <Content Include="Views\Goals\Details.cshtml" />
     <Content Include="Views\Goals\Edit.cshtml" />
     <Content Include="Views\Goals\Delete.cshtml" />
-    <Content Include="Views\Rewards\Index.cshtml" />
+    <Content Include="Views\Rewards\Admin.cshtml" />
     <Content Include="Views\Rewards\Details.cshtml" />
     <Content Include="Views\Rewards\Create.cshtml" />
     <Content Include="Views\Rewards\Edit.cshtml" />
@@ -2814,11 +2814,6 @@
     <Content Include="Views\UserComments\Create.cshtml" />
     <Content Include="Views\UserComments\Edit.cshtml" />
     <Content Include="Views\UserComments\Delete.cshtml" />
-    <Content Include="Views\Products\Index.cshtml" />
-    <Content Include="Views\Products\Details.cshtml" />
-    <Content Include="Views\Products\Create.cshtml" />
-    <Content Include="Views\Products\Edit.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
     <Content Include="Views\Albums\Index.cshtml" />
     <Content Include="Views\Albums\Details.cshtml" />
     <Content Include="Views\Albums\Create.cshtml" />
@@ -2843,7 +2838,7 @@
     <Content Include="Views\Account\RegisterFacebook.cshtml" />
     <Content Include="Views\Account\RegisterBasic.cshtml" />
     <Content Include="Views\Facebook\Docs\Login.cshtml" />
-    <Content Include="Views\Campaigns\Modify.cshtml" />
+    <Content Include="Views\Campaigns\Edit.cshtml" />
     <Content Include="Views\Shared\_CreateGoal.cshtml" />
     <Content Include="Views\Shared\_CreateReward.cshtml" />
     <Content Include="Views\Shared\_EditProfile.cshtml" />
@@ -2866,7 +2861,6 @@
     <Content Include="Views\Shared\_UserSlider.cshtml" />
     <Content Include="Views\Shared\_EditCampaign.cshtml" />
     <Content Include="Views\Shared\_EditGoal.cshtml" />
-    <Content Include="Views\Shared\_ModifyCampaign.cshtml" />
     <Content Include="Views\Shared\_CreateCampaignUpdate.cshtml" />
     <Content Include="Views\Shared\_CreateCampaignComment.cshtml" />
     <Content Include="Views\Shared\_CreateUserComment.cshtml" />
@@ -2878,6 +2872,10 @@
     <Content Include="Views\Shared\_GoalRewards.cshtml" />
     <Content Include="Views\Shared\_CampaignDescription.cshtml" />
     <Content Include="Views\Shared\_BigSliderTEST.cshtml" />
+    <None Include="Views\Campaigns\Admin.cshtml" />
+    <Content Include="Views\Profiles\Admin.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\_AdminUsers.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -2895,7 +2893,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2551</DevelopmentServerPort>
+          <DevelopmentServerPort>22653</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

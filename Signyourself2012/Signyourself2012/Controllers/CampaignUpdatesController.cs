@@ -11,14 +11,14 @@ namespace Signyourself2012.Controllers
 {
     public class CampaignUpdatesController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /CampaignUpdates/
 
         public ActionResult Index()
         {
-            var campaignupdates = db.CampaignUpdates.Include(c => c.Campaign).Include(c => c.User);
+            var campaignupdates = _db.CampaignUpdates.Include(c => c.Campaign).Include(c => c.User);
             return View(campaignupdates.ToList());
         }
 
@@ -27,7 +27,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            CampaignUpdate campaignupdate = db.CampaignUpdates.Find(id);
+            CampaignUpdate campaignupdate = _db.CampaignUpdates.Find(id);
             if (campaignupdate == null)
             {
                 return HttpNotFound();
@@ -40,8 +40,8 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name");
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName");
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name");
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CampaignUpdates.Add(campaignupdate);
-                db.SaveChanges();
+                _db.CampaignUpdates.Add(campaignupdate);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaignupdate.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaignupdate.UserID);
             return View(campaignupdate);
         }
 
@@ -68,13 +68,13 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            CampaignUpdate campaignupdate = db.CampaignUpdates.Find(id);
+            CampaignUpdate campaignupdate = _db.CampaignUpdates.Find(id);
             if (campaignupdate == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaignupdate.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaignupdate.UserID);
             return View(campaignupdate);
         }
 
@@ -86,12 +86,12 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(campaignupdate).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(campaignupdate).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaignupdate.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaignupdate.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaignupdate.UserID);
             return View(campaignupdate);
         }
 
@@ -100,7 +100,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            CampaignUpdate campaignupdate = db.CampaignUpdates.Find(id);
+            CampaignUpdate campaignupdate = _db.CampaignUpdates.Find(id);
             if (campaignupdate == null)
             {
                 return HttpNotFound();
@@ -114,15 +114,15 @@ namespace Signyourself2012.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            CampaignUpdate campaignupdate = db.CampaignUpdates.Find(id);
-            db.CampaignUpdates.Remove(campaignupdate);
-            db.SaveChanges();
+            CampaignUpdate campaignupdate = _db.CampaignUpdates.Find(id);
+            _db.CampaignUpdates.Remove(campaignupdate);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

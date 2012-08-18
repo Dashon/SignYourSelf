@@ -15,14 +15,14 @@ namespace Signyourself2012.Controllers
 {
     public class ProfilesController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Profiles/
         [Authorize]
         public ActionResult Index()
         {
-            var profiles = db.Profiles.Include(p => p.User);
+            var profiles = _db.Profiles.Include(p => p.User);
             return View(profiles.ToList());
         }
 
@@ -31,7 +31,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(string username = "")
         {
-            Profile profile = db.Profiles.SingleOrDefault(p => p.User.UserName == username);
+            Profile profile = _db.Profiles.SingleOrDefault(p => p.User.UserName == username);
             if (profile == null)
             {
                 return HttpNotFound();
@@ -53,7 +53,7 @@ namespace Signyourself2012.Controllers
         public ActionResult Edit(String username = "")
         {
             if (username == null) return HttpNotFound();
-            Profile profile = db.Profiles.SingleOrDefault(p => p.User.UserName == username);
+            Profile profile = _db.Profiles.SingleOrDefault(p => p.User.UserName == username);
             if (profile == null)
             {
                 return HttpNotFound();
@@ -62,7 +62,7 @@ namespace Signyourself2012.Controllers
             if (providerUserKey != null && profile.UserId != (Guid)providerUserKey) { return HttpNotFound(); }
            
             
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", profile.UserId);
+            ViewBag.UserId = new SelectList(_db.Users, "UserId", "UserName", profile.UserId);
             return View(profile);
         }
 
@@ -73,17 +73,16 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Profile profile)
         {
-            profile.User = db.Users.Single(u => u.UserId == (Guid)profile.UserId);
+            profile.User = _db.Users.Single(u => u.UserId == (Guid)profile.UserId);
             var providerUserKey = Membership.GetUser().ProviderUserKey;
             if (providerUserKey != null && profile.UserId != (Guid)providerUserKey) { return HttpNotFound(); }
             profile.LastUpdatedDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Entry(profile).State = EntityState.Modified;
+                _db.Entry(profile).State = EntityState.Modified;
                 try
                 {
-                    db.SaveChanges();
-
+                    _db.SaveChanges();
                     return RedirectToAction("Details", new { username = profile.User.UserName });
                 }
                 catch (EntityException es)
@@ -92,7 +91,7 @@ namespace Signyourself2012.Controllers
                     return View(profile);
                 }
             }
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", profile.UserId);
+            ViewBag.UserId = new SelectList(_db.Users, "UserId", "UserName", profile.UserId);
             return View(profile);
         }
 
@@ -100,7 +99,7 @@ namespace Signyourself2012.Controllers
       
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

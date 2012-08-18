@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class CampaignCommentsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /CampaignComments/
          [Authorize]
         public ActionResult Index()
         {
-            var campaigncomments = db.CampaignComments.Include(c => c.Campaign).Include(c => c.User);
+            var campaigncomments = _db.CampaignComments.Include(c => c.Campaign).Include(c => c.User);
             return View(campaigncomments.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            CampaignComment campaigncomment = db.CampaignComments.Find(id);
+            CampaignComment campaigncomment = _db.CampaignComments.Find(id);
             if (campaigncomment == null)
             {
                 return HttpNotFound();
@@ -41,8 +41,8 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Create()
         {
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name");
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName");
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name");
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName");
             return View();
         }
 
@@ -55,13 +55,13 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CampaignComments.Add(campaigncomment);
-                db.SaveChanges();
+                _db.CampaignComments.Add(campaigncomment);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaigncomment.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaigncomment.UserID);
             return View(campaigncomment);
         }
 
@@ -70,13 +70,13 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            CampaignComment campaigncomment = db.CampaignComments.Find(id);
+            CampaignComment campaigncomment = _db.CampaignComments.Find(id);
             if (campaigncomment == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaigncomment.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaigncomment.UserID);
             return HttpNotFound();
         }
 
@@ -87,15 +87,15 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(CampaignComment campaigncomment)
         {
-            return HttpNotFound();
+            if (campaigncomment==null)return HttpNotFound();
             if (ModelState.IsValid)
             {
-                db.Entry(campaigncomment).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(campaigncomment).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", campaigncomment.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", campaigncomment.CampaignID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", campaigncomment.UserID);
             return View(campaigncomment);
         }
 
@@ -104,7 +104,7 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            CampaignComment campaigncomment = db.CampaignComments.Find(id);
+            CampaignComment campaigncomment = _db.CampaignComments.Find(id);
             if (campaigncomment.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (campaigncomment == null)
             {
@@ -120,17 +120,17 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            CampaignComment campaigncomment = db.CampaignComments.Find(id);
+            CampaignComment campaigncomment = _db.CampaignComments.Find(id);
             if (campaigncomment.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             campaigncomment.IsDeactivated = true;
-            db.Entry(campaigncomment).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(campaigncomment).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

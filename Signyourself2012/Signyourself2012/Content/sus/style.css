@@ -611,7 +611,7 @@ top: 0px;
 
 .opacity .List-thumbs figure .opener{ display: none; }
 
-/* PROJECT ------------------------------------------------------------*/
+/* Campaign ------------------------------------------------------------*/
 
 #EndDate_Badge
 {
@@ -704,7 +704,9 @@ font-weight:bold;
 .project-pager .next-project{
 	float: right;
 }
-
+.CampaingModify_Content {
+    display: none;
+}
 /* RELATED PROJECTS ---------------------------------------------------*/
 
 .related-projects{
@@ -938,6 +940,7 @@ padding-bottom: 10px;
 .MediaMenu-Conent{
 	 display: none;
 }
+
 .UserMenu-block .home{ background: url(../../Images/ICONS/16/house.png) no-repeat top left }
 .UserMenu-block .updates{ background: url(../../Images/ICONS/16/arrow_refresh.png) no-repeat top left }
 .UserMenu-block .campaigns{ background: url(../../Images/ICONS/16/briefcase.png) no-repeat top left }

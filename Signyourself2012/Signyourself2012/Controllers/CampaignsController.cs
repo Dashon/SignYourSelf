@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Signyourself2012.Models;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using WebMatrix.WebData;
 using System.Web.Security;
 
@@ -15,14 +11,23 @@ namespace Signyourself2012.Controllers
 {
     public class CampaignsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
-
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
         //
         // GET: /Campaigns/
-         [Authorize]
+        [Authorize]
         public ActionResult Index()
         {
-            var campaigns = db.Campaigns.Include(c => c.Account).Include(c => c.CampaignType).Include(c => c.Genre).Include(c => c.Creator);
+            var campaigns = _db.Campaigns.Include(c => c.Account).Include(c => c.CampaignType).Include(c => c.Genre).Include(c => c.Creator);
+            return View(campaigns.ToList());
+        }
+
+        
+        // Get /Admin/
+        [Authorize]
+        public ActionResult Admin()
+        {
+            if (!Roles.IsUserInRole("SiteAdmin")) return HttpNotFound();
+            var campaigns = _db.Campaigns.Include(c => c.Account).Include(c => c.CampaignType).Include(c => c.Genre).Include(c => c.Creator);
             return View(campaigns.ToList());
         }
 
@@ -31,29 +36,29 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Campaign campaign = db.Campaigns.Find(id);
+
+            Campaign campaign = _db.Campaigns.Find(id);
+
+            if (campaign == null) return HttpNotFound();
+
             if (campaign.CampaignPrivacyID == 1)
             {
                 if (!WebSecurity.IsAuthenticated) { return HttpNotFound(); }
-                if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+                var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+                if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
             }
-            if (campaign == null)
-            {
-                return HttpNotFound();
-            }
+
             return View(campaign);
         }
 
         //
         // GET: /Campaigns/Create
-         [Authorize]
-        public ActionResult Modify()
-        {   ViewBag.CampaignTypeId = new SelectList(db.CampaignTypes, "CampaignTypeID", "Name");
-            ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name");            
+        [Authorize]
+        public ActionResult Create()
+        {
+            ViewBag.CampaignTypeId = new SelectList(_db.CampaignTypes, "CampaignTypeID", "Name");
+            ViewBag.GenreID = new SelectList(_db.Genres, "ID", "Name");
 
-            ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name");
-            ViewBag.RewardTypeID = new SelectList(db.RewardTypes, "RewardTypeID", "Name");
-           
             return View();
         }
 
@@ -62,53 +67,47 @@ namespace Signyourself2012.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Modify(Campaign campaign)
+        public ActionResult Create(Campaign campaign)
         {
+            
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            campaign.DateCreated = DateTime.Now;
+            campaign.UserId = currentUserId;
+            campaign.Appoved = true; //default false, approve by admin
+            campaign.Active = true; //default false , activate after submit
+            campaign.Email = _db.Users.SingleOrDefault(u => u.UserId == currentUserId).Membership.Email;
+            campaign.Location = _db.Users.SingleOrDefault(u => u.UserId == currentUserId).Profile.Location;
+            campaign.EndDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Campaigns.Add(campaign);
-                try
-                {
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        }
-                    }
-                }
-               
+                _db.Campaigns.Add(campaign);
+                _db.SaveChanges();
+                return RedirectToAction("Edit", "Campaigns", new { id = campaign.CampaignID });
+
             }
 
-            ViewBag.AccountId = new SelectList(db.Accounts, "AccountID", "AccountID", campaign.AccountId);
-            ViewBag.CampaignTypeId = new SelectList(db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
-            ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name", campaign.GenreID);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", campaign.UserId);
+            ViewBag.AccountId = new SelectList(_db.Accounts, "AccountID", "AccountID", campaign.AccountId);
+            ViewBag.CampaignTypeId = new SelectList(_db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
+            ViewBag.GenreID = new SelectList(_db.Genres, "ID", "Name", campaign.GenreID);
+            ViewBag.UserId = new SelectList(_db.Users, "UserId", "UserName", campaign.UserId);
             return View(campaign);
         }
 
         //
         // GET: /Campaigns/Edit/5
-         [Authorize]
+        [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            Campaign campaign = db.Campaigns.Find(id);
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            Campaign campaign = _db.Campaigns.Find(id);
+            if (campaign == null)return HttpNotFound();
+            if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
 
-            if (campaign == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.AccountId = new SelectList(db.Accounts, "AccountID", "AccountID", campaign.AccountId);
-            ViewBag.CampaignTypeId = new SelectList(db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
-            ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name", campaign.GenreID);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", campaign.UserId);
+
+            ViewBag.AccountId = new SelectList(_db.Accounts, "AccountID", "AccountID", campaign.AccountId);
+            ViewBag.CampaignTypeId = new SelectList(_db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
+            ViewBag.GenreID = new SelectList(_db.Genres, "ID", "Name", campaign.GenreID);
+            ViewBag.UserId = new SelectList(_db.Users, "UserId", "UserName", campaign.UserId);
             return View(campaign);
         }
 
@@ -119,35 +118,45 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Campaign campaign)
         {
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            if (campaign == null)return HttpNotFound();
+
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            var existingCampaign = _db.Campaigns.Find(campaign.CampaignID);
+            if (existingCampaign.UserId != currentUserId) { return HttpNotFound(); }
 
             if (ModelState.IsValid)
             {
-                db.Entry(campaign).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                existingCampaign.Location = campaign.Location;
+                existingCampaign.Name = campaign.Name;
+                existingCampaign.Location = campaign.Location;
+                existingCampaign.Intro = campaign.Intro;
+                existingCampaign.Email = campaign.Email;
+                existingCampaign.EndDate = campaign.EndDate;
+                existingCampaign.CampaignTypeId = campaign.CampaignTypeId;
+                existingCampaign.GenreID = campaign.GenreID;
+
+                _db.Entry(existingCampaign).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Details", "Campaigns", new { id = existingCampaign.CampaignID });
+
             }
-            ViewBag.AccountId = new SelectList(db.Accounts, "AccountID", "AccountID", campaign.AccountId);
-            ViewBag.CampaignTypeId = new SelectList(db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
-            ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name", campaign.GenreID);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserName", campaign.UserId);
+            ViewBag.AccountId = new SelectList(_db.Accounts, "AccountID", "AccountID", campaign.AccountId);
+            ViewBag.CampaignTypeId = new SelectList(_db.CampaignTypes, "CampaignTypeID", "Name", campaign.CampaignTypeId);
+            ViewBag.GenreID = new SelectList(_db.Genres, "ID", "Name", campaign.GenreID);
+            ViewBag.UserId = new SelectList(_db.Users, "UserId", "UserName", campaign.UserId);
             return View(campaign);
         }
 
         //
         // GET: /Campaigns/Delete/5
-         [Authorize]
+        [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            Campaign campaign = db.Campaigns.Find(id);
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            Campaign campaign = _db.Campaigns.Find(id);
 
-            if (campaign == null)
-            {
-                return HttpNotFound();
-            }
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            if (campaign == null)return HttpNotFound();
+            if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
             return View(campaign);
         }
 
@@ -158,19 +167,20 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Campaign campaign = db.Campaigns.Find(id);
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            Campaign campaign = _db.Campaigns.Find(id);
+            if (campaign == null)return HttpNotFound();
+            if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
 
             campaign.IsDeactivated = true;
-            db.Entry(campaign).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(campaign).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

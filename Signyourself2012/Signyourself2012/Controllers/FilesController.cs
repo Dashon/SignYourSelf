@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class FilesController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Files/
         [Authorize]
         public ActionResult Index()
         {
-            var files = db.Files.Include(f => f.LinkSource).Include(f => f.User).Include(f => f.FileType);
+            var files = _db.Files.Include(f => f.LinkSource).Include(f => f.User).Include(f => f.FileType);
             return View(files.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            File file = db.Files.Find(id);
+            File file = _db.Files.Find(id);
             if (file == null)
             {
                 return HttpNotFound();
@@ -41,8 +41,8 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            ViewBag.LinkSourceId = new SelectList(db.LinkSources, "LinkTypeID", "WebsiteName");
-            ViewBag.FileTypeId = new SelectList(db.FileTypes, "aFileTypeID", "Name");
+            ViewBag.LinkSourceId = new SelectList(_db.LinkSources, "LinkTypeID", "WebsiteName");
+            ViewBag.FileTypeId = new SelectList(_db.FileTypes, "aFileTypeID", "Name");
             return View();
         }
 
@@ -69,13 +69,13 @@ namespace Signyourself2012.Controllers
 
                     if (fileUrl == "") return View(file);
                     
-                    db.Files.Add(file);
-                    db.SaveChanges();
+                    _db.Files.Add(file);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }
-            ViewBag.LinkSourceId = new SelectList(db.Albums.Where(a => a.UserID==(Guid)Membership.GetUser().ProviderUserKey), "AlbumID", "Name");
-            ViewBag.FileTypeId = new SelectList(db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
+            ViewBag.LinkSourceId = new SelectList(_db.Albums.Where(a => a.UserID==(Guid)Membership.GetUser().ProviderUserKey), "AlbumID", "Name");
+            ViewBag.FileTypeId = new SelectList(_db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
             return View(file);
         }
 
@@ -84,16 +84,16 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            File file = db.Files.Find(id);
+            File file = _db.Files.Find(id);
 
             if (file.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (file == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LinkSourceId = new SelectList(db.LinkSources, "LinkTypeID", "WebsiteName", file.LinkSourceId);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", file.UserID);
-            ViewBag.FileTypeId = new SelectList(db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
+            ViewBag.LinkSourceId = new SelectList(_db.LinkSources, "LinkTypeID", "WebsiteName", file.LinkSourceId);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", file.UserID);
+            ViewBag.FileTypeId = new SelectList(_db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
             return View(file);
         }
 
@@ -107,12 +107,12 @@ namespace Signyourself2012.Controllers
             if (file.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
-                db.Entry(file).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(file).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.LinkSourceId = new SelectList(db.LinkSources, "LinkTypeID", "WebsiteName", file.LinkSourceId);
-            ViewBag.FileTypeId = new SelectList(db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
+            ViewBag.LinkSourceId = new SelectList(_db.LinkSources, "LinkTypeID", "WebsiteName", file.LinkSourceId);
+            ViewBag.FileTypeId = new SelectList(_db.FileTypes, "FileTypeID", "Name", file.FileTypeId);
             return View(file);
         }
 
@@ -121,7 +121,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            File file = db.Files.Find(id);
+            File file = _db.Files.Find(id);
 
             if (file.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (file == null)
@@ -138,17 +138,17 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            File file = db.Files.Find(id);
+            File file = _db.Files.Find(id);
             if (file.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             file.IsDeactivated = true;
-            db.Entry(file).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(file).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

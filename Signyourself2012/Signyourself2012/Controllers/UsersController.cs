@@ -13,13 +13,6 @@ namespace Signyourself2012.Controllers
     {
         private SignYourselfEntities db = new SignYourselfEntities();
 
-        //
-        // GET: /Users/Admin
-        [Authorize]
-        public ActionResult Admin()
-        {
-            return View(db.Users.ToList());
-        }
 
         //
         // GET: /Users/5
@@ -33,87 +26,6 @@ namespace Signyourself2012.Controllers
             }
             return View(user);
         }
-
-        //
-        // GET: /Users/Create
-        [Authorize]
-        public ActionResult New()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Users/Create
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult New(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(user);
-        }
-
-        //
-        // GET: /Users/Edit/5
-        [Authorize]
-        public ActionResult Edit(int id = 0)
-        {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        //
-        // POST: /Users/Edit/5
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Edit(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(user);
-        }
-
-        //
-        // GET: /Users/Delete/5
-        [Authorize]
-        public ActionResult Delete(int id = 0)
-        {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        //
-        // POST: /Users/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        [Authorize]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            User user = db.Users.Find(id);
-            //db.UserProfiles.Remove(user);
-            //db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

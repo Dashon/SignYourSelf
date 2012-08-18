@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class GoalsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Goals/
 
         public ActionResult Index()
         {
-            var goals = db.Goals.Include(g => g.GoalType).Include(g => g.Creator).Include(g => g.Campaign);
+            var goals = _db.Goals.Include(g => g.GoalType).Include(g => g.Creator).Include(g => g.Campaign);
             return View(goals.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Goal goal = db.Goals.Find(id);
+            Goal goal = _db.Goals.Find(id);
             if (goal == null)
             {
                 return HttpNotFound();
@@ -41,10 +41,11 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create(int CampaignId)
         {
-            Campaign campaign = db.Campaigns.Find(CampaignId);
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            Campaign campaign = _db.Campaigns.Find(CampaignId);
             if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
-            ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name");
+            if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
+            ViewBag.GoalTypeID = new SelectList(_db.GoalTypes, "GoalTypeID", "Name");
 
             ViewBag.CampaignID = CampaignId;
             return View();
@@ -55,36 +56,39 @@ namespace Signyourself2012.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Goal goal)
+        public ActionResult Create_Add(Goal goal)
         {
-            Campaign campaign = db.Campaigns.Find(goal.CampaignID);
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            Campaign campaign = _db.Campaigns.Find(goal.CampaignID);
+            if (campaign == null)return HttpNotFound();
+            if (campaign.Creator.UserId != currentUserId)return HttpNotFound();
+           
             if (ModelState.IsValid)
             {
                 try
                 {
                     goal.Approved = true;
-                    goal.UserID = (Guid)Membership.GetUser().ProviderUserKey;
+                    goal.UserID = currentUserId;
                     goal.DateCreated = DateTime.Today;
                     goal.Status = "Approved";
-                    
-                    db.Goals.Add(goal);
-                    db.SaveChanges();
+                    goal.IsDeactivated = false;
+                    goal.CurrentQTY = "0";
+                    _db.Goals.Add(goal);
+                    _db.SaveChanges();
                     ViewBag.Message = "Goals Saved";
-                    return RedirectToAction("Index");
+                    return PartialView("_CampaignGoals",campaign.Goals);
                 }
                 catch (EntityException es)
                 {
 
-                    ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name");
+                    ViewBag.GoalTypeID = new SelectList(_db.GoalTypes, "GoalTypeID", "Name");
                     ViewBag.Message = es;
-                    return View(goal);
+                    return PartialView("_CampaignGoals", campaign.Goals);
                 }
             }
 
-            ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name");
-            return View(goal);
+            ViewBag.GoalTypeID = new SelectList(_db.GoalTypes, "GoalTypeID", "Name");
+            return PartialView("_CampaignGoals", campaign.Goals);
 
         }
 
@@ -93,15 +97,15 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            Goal goal = db.Goals.Find(id);
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            Goal goal = _db.Goals.Find(id);
+            if (goal == null) return HttpNotFound();
+
             Campaign campaign = goal.Campaign;
-            if (campaign == null) { return HttpNotFound(); }
-            if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
-            if (goal == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name", goal.GoalTypeID);
+            if (campaign == null)return HttpNotFound();
+            if (campaign.Creator.UserId != currentUserId) { return HttpNotFound(); }
+            
+            ViewBag.GoalTypeID = new SelectList(_db.GoalTypes, "GoalTypeID", "Name", goal.GoalTypeID);
             return View(goal);
         }
 
@@ -112,15 +116,26 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Goal goal)
         {
-            Campaign campaign = goal.Campaign;
-            if (campaign == null) { return HttpNotFound(); }
+            if (goal == null)return HttpNotFound();
+            var currentUserId = (Guid)Membership.GetUser().ProviderUserKey;
+            var existingGoal = _db.Goals.Find(goal.GoalID);
+            if (existingGoal.UserID != currentUserId)return HttpNotFound();
+
+            Campaign campaign = existingGoal.Campaign;
+            if (campaign == null)return HttpNotFound();
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(goal).State = EntityState.Modified;
-                    db.SaveChanges();
+                    existingGoal.GoalTypeID = goal.GoalTypeID;
+                    existingGoal.Name = goal.Name;
+                    existingGoal.Private = goal.Private;
+                    existingGoal.QtyMax = goal.QtyMax;
+                    existingGoal.TargetNum = goal.TargetNum;
+
+                    _db.Entry(existingGoal).State = EntityState.Modified;
+                    _db.SaveChanges();
                     ViewBag.Message = "Goal Saved";
                     return RedirectToAction("Index");
                 }
@@ -130,7 +145,7 @@ namespace Signyourself2012.Controllers
                     return View();
                 }
             }
-            ViewBag.GoalTypeID = new SelectList(db.GoalTypes, "GoalTypeID", "Name", goal.GoalTypeID);
+            ViewBag.GoalTypeID = new SelectList(_db.GoalTypes, "GoalTypeID", "Name", goal.GoalTypeID);
             return View();
         }
 
@@ -139,9 +154,9 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            Goal goal = db.Goals.Find(id);
+            Goal goal = _db.Goals.Find(id);
             Campaign campaign = goal.Campaign;
-            if (campaign == null) { return HttpNotFound(); }
+            if (campaign == null)return HttpNotFound();
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (goal == null)
             {
@@ -157,19 +172,19 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Goal goal = db.Goals.Find(id);
+            Goal goal = _db.Goals.Find(id);
             Campaign campaign = goal.Campaign;
-            if (campaign == null) { return HttpNotFound(); }
+            if (campaign == null)return HttpNotFound();
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             goal.IsDeactivated = true;
-            db.Entry(goal).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(goal).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

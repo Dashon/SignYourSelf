@@ -1,7 +1,7 @@
 ﻿@model Signyourself2012.Models.Profile
 @{
     ViewBag.Title = "Details";
-    var db = new Signyourself2012.Models.SignYourselfEntities();
+    var _db = new Signyourself2012.Models.SignYourselfEntities();
     //var ip = GetCountryByIP(GetIPAddress());
 }
 
@@ -11,21 +11,20 @@
         // When one of our nav links is clicked on, 
         $('#UserMenu a').click(function (e) {
             e.preventDefault();
-            div_to_activate = '#' + $(this).attr('href'); // Store its target
+            var divToActivate = '#' + $(this).attr('href'); // Store its target
             $('.UserMenu-Conent:visible').hide(); // Hide any visible div with the class "content"
-            $(div_to_activate).show(); // Show the target div    
+            $(divToActivate).show(); // Show the target div    
         });
 
         $('#mediaTabs a').click(function (e) {
             e.preventDefault();
-            div_to_activate = '#' + $(this).attr('href'); // Store its target
+            var divToActivate = '#' + $(this).attr('href'); // Store its target
             $('.MediaMenu-Conent:visible').hide(); // Hide any visible div with the class "content"
-            $(div_to_activate).show(); // Show the target div    
+            $(divToActivate).show(); // Show the target div    
         });
     });
 </script>
 <!-- MAIN -->
-@section featured {
     <!-- slider holder -->
     <div id="slider-holder" class="clearfix">
         <!-- slider -->
@@ -50,7 +49,7 @@
                     @{
                         if (WebSecurity.IsAuthenticated)
                         {
-                            var sUserSupported = from purchase in db.Purchases
+                            var sUserSupported = from purchase in _db.Purchases
                                                  where purchase.Product.UserID == Model.UserId &&
                                                           purchase.UserID == (Guid)Membership.GetUser().ProviderUserKey
                                                  select purchase;
@@ -61,7 +60,7 @@
                         var messageProducts = Model.User.Products.Where(x => x.ProductTypeID == 2 &&
                                                                          x.Active == true);
 
-                        var messagePurchaseDates = from purchase in db.Purchases
+                        var messagePurchaseDates = from purchase in _db.Purchases
                                                    where purchase.ProductID == messageProducts.First().ProductID &&
                                                          purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
                                                    select purchase.Date;
@@ -70,7 +69,7 @@
                         var callProducts = Model.User.Products.Where(x => x.ProductTypeID == 3 &&
                                                                       x.Active == true);
 
-                        var callPurchaseDate = from purchase in db.Purchases
+                        var callPurchaseDate = from purchase in _db.Purchases
                                                where purchase.ProductID == callProducts.First().ProductID &&
                                                      purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
                                                select purchase.Date;
@@ -130,7 +129,7 @@
         <!-- ENDS headline -->
     </div>
     <!-- ENDS slider holder -->
-}
+
 <section class="MasterLeftSide-Panel">
    <aside id="lil-sidebar">
     <h4>
@@ -150,18 +149,18 @@
             Test,emmmmd</div>
     </div>
     <div id="Campaigns" class="UserMenu-Conent">
-        @{ var U_Campaigns = from cu in db.Ref_CampaignUsers
+        @{ var uCampaigns = from cu in _db.Ref_CampaignUsers
                              where cu.UserID == Model.UserId & cu.RelationshipTypeID == 2
                              select cu.Campaign;
 
-           var User_Campaigns = Model.User.CampaignUsers.Where(CU => CU.RelationshipTypeID == 2);             
+           var userCampaigns = Model.User.CampaignUsers.Where(CU => CU.RelationshipTypeID == 2);             
         }
         <h3 class="heading">
-            @U_Campaigns.Count() Supporters</h3>
-        @User_Campaigns.Count()
+            @uCampaigns.Count() Supporters</h3>
+        @userCampaigns.Count()
         <!-- thumbs -->
         <div class="List-thumbs clearfix sm">
-            @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in User_Campaigns)
+            @foreach (Signyourself2012.Models.Ref_CampaignUsers cu in userCampaigns)
             {
                                        
                 <figure>
@@ -230,14 +229,14 @@
             </div>
             <div id="Pictures" class="MediaMenu-Conent">
                 @{ 
-                    var UserPics = files.Where(f => f.FileTypeId == 2);
+                    var userPics = files.Where(f => f.FileTypeId == 2);
                 }
                 <h2 class="project-heading">
-                    @UserPics.Count() Supporters</h2>
-                @UserPics.Count()
+                    @userPics.Count() Supporters</h2>
+                @userPics.Count()
                 <!-- thumbs -->
                 <div class="List-thumbs clearfix sm">
-                    @foreach (Signyourself2012.Models.File pic in UserPics)
+                    @foreach (Signyourself2012.Models.File pic in userPics)
                     {
                         <figure>
                             <figcaption class="clearfix">

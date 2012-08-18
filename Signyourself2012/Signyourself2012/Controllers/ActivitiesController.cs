@@ -11,14 +11,14 @@ namespace Signyourself2012.Controllers
 {
     public class ActivitiesController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Activities/
         [Authorize]
         public ActionResult Index()
         {
-            var activities = db.Activities.Include(a => a.ActivityType).Include(a => a.User);
+            var activities = _db.Activities.Include(a => a.ActivityType).Include(a => a.User);
             return View(activities.ToList());
         }
 
@@ -27,7 +27,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Details(int id = 0)
         {
-            Activity activity = db.Activities.Find(id);
+            Activity activity = _db.Activities.Find(id);
             if (activity == null)
             {
                 return HttpNotFound();
@@ -43,8 +43,8 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Activities.Add(activity);
-                db.SaveChanges();
+                _db.Activities.Add(activity);
+                _db.SaveChanges();
                return HttpNotFound();
             }
 
@@ -55,7 +55,7 @@ namespace Signyourself2012.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

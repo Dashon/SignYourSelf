@@ -26,15 +26,11 @@ namespace Signyourself2012.Models
         public System.Guid UserID { get; set; }
         public string TargetNum { get; set; }
         public string QtyMax { get; set; }
-        public System.DateTime TargetDate { get; set; }
         public System.DateTime ExpDate { get; set; }
         public System.DateTime DateCreated { get; set; }
         public bool Approved { get; set; }
         public bool Private { get; set; }
         public string Status { get; set; }
-        public string YouTubeURL { get; set; }
-        public string FBURL { get; set; }
-        public string TwitterURL { get; set; }
         public string CurrentQTY { get; set; }
         public int CampaignID { get; set; }
         public Nullable<bool> IsDeactivated { get; set; }

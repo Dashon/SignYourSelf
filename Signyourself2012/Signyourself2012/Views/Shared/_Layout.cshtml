@@ -5,8 +5,8 @@
     <title>@ViewBag.Title - My ASP.NET MVC Application</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <!--[if lt IE 9]>
-			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css"
         type="text/css" media="all" />
@@ -22,8 +22,8 @@
             <div class="wrapper">
                 <div id="top-widget">
                     <div class="padding">
-                        Data
-                    </div>
+                        <div id="admin-options" class="admin"></div>
+                    Test </div>
                 </div>
             </div>
             <a href="#" id="top-open">Menu</a>
@@ -38,7 +38,7 @@
                         <input type="text" maxlength="50" id="Search" name="Search" title="Search" placeholder="Search" /></li>
                     <li>@Html.ActionLink("Find Pros", "Index", "Home")</li>
                     <li>@Html.ActionLink("Discover Talent", "Features", "Home")</li>
-                    <li>@Html.ActionLink("Start Campaign ", "Modify", "Campaigns")
+                    <li>@Html.ActionLink("Start Campaign ", "Create", "Campaigns")
                         @*     <ul>
                             <li><a href="#">Submenu</a></li>
                             <li><a href="#">Submenu</a></li>
@@ -54,7 +54,7 @@
                     <p>
                         Hello, <a class="username" href="~/Profiles/@WebSecurity.CurrentUserName" title="My Profile">@WebSecurity.CurrentUserName</a>!
                     </p> <ul>
-                        <li>@Html.ActionLink("My Dashboard", "Dashboard", "Account")</li>
+                        <li>@Html.ActionLink("My Dashboard", "Index", "Dashboard")</li>
                         <li>@Html.ActionLink("Logout", "Logoff", "Account")</li>
                     </ul>
                 }
@@ -72,15 +72,16 @@
         <div class="oblique-line" />
         @if (WebSecurity.IsAuthenticated)
         {
-            <section style="display:none;">
+            <section style="display: none;">
                 <h4 class="alert_error" id="Alert" runat="server" hidden="hidden">
                     An Alert Message</h4>
             </section>
         }
         <section class="wrapper">
-        @RenderSection("Featured", required: false)
-        @RenderBody()
+            @RenderSection("Featured", required: false)
+            @RenderBody()
         </section>
+        <div class="clearfix"></div>
     </div>
     <footer>
         <div class="oblique-line"/>

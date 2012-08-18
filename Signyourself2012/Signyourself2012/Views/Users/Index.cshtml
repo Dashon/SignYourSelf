@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Signyourself2012.Models.User>
+@{
+    ViewBag.Title = "Browse Users";
+}
+
+<h2>Browse Users</h2>
+
+
+@foreach (var item in Model) {
+  Html.RenderPartial("_UserCard",item);
+}

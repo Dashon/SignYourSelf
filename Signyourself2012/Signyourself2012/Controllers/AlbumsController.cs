@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class AlbumsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Albums/
 
         public ActionResult Index()
         {
-            var albums = db.Albums.Include(a => a.AlbumType).Include(a => a.PrivacyLevel).Include(a => a.User).Include(a => a.Campaign);
+            var albums = _db.Albums.Include(a => a.AlbumType).Include(a => a.PrivacyLevel).Include(a => a.User).Include(a => a.Campaign);
             return View(albums.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             if (album == null)
             {
                 return HttpNotFound();
@@ -41,10 +41,10 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Create()
         {
-            ViewBag.AlbumTypeID = new SelectList(db.AlbumTypes, "AlbumTypeID", "Name");
-            ViewBag.PrivacyLevelId = new SelectList(db.PrivacyLevels, "PrivacyLevelID", "Name");
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName");
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name");
+            ViewBag.AlbumTypeID = new SelectList(_db.AlbumTypes, "AlbumTypeID", "Name");
+            ViewBag.PrivacyLevelId = new SelectList(_db.PrivacyLevels, "PrivacyLevelID", "Name");
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName");
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name");
             return View();
         }
 
@@ -57,15 +57,15 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Albums.Add(album);
-                db.SaveChanges();
+                _db.Albums.Add(album);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AlbumTypeID = new SelectList(db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
-            ViewBag.PrivacyLevelId = new SelectList(db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", album.UserID);
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", album.CampaignID);
+            ViewBag.AlbumTypeID = new SelectList(_db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
+            ViewBag.PrivacyLevelId = new SelectList(_db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", album.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", album.CampaignID);
             return View(album);
         }
 
@@ -74,17 +74,17 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
 
             if (album.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (album == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AlbumTypeID = new SelectList(db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
-            ViewBag.PrivacyLevelId = new SelectList(db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", album.UserID);
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", album.CampaignID);
+            ViewBag.AlbumTypeID = new SelectList(_db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
+            ViewBag.PrivacyLevelId = new SelectList(_db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", album.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", album.CampaignID);
             return View(album);
         }
 
@@ -98,14 +98,14 @@ namespace Signyourself2012.Controllers
             if (album.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
-                db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(album).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AlbumTypeID = new SelectList(db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
-            ViewBag.PrivacyLevelId = new SelectList(db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", album.UserID);
-            ViewBag.CampaignID = new SelectList(db.Campaigns, "CampaignID", "Name", album.CampaignID);
+            ViewBag.AlbumTypeID = new SelectList(_db.AlbumTypes, "AlbumTypeID", "Name", album.AlbumTypeID);
+            ViewBag.PrivacyLevelId = new SelectList(_db.PrivacyLevels, "PrivacyLevelID", "Name", album.PrivacyLevelId);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", album.UserID);
+            ViewBag.CampaignID = new SelectList(_db.Campaigns, "CampaignID", "Name", album.CampaignID);
             return View(album);
         }
 
@@ -114,7 +114,7 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             if (album.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (album == null)
             {
@@ -130,17 +130,17 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             if (album.UserID != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             album.IsDeactivated = true;
-            db.Entry(album).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(album).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

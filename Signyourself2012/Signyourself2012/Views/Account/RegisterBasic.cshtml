@@ -52,10 +52,10 @@
             var db = Database.Open("bakery");
 
             // Check if user already exists
-            var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
+            var user = _db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
             if (user == null) {
                 // Insert email into the profile table
-                db.Execute("INSERT INTO UserProfile (Email, UserName) VALUES (@0, @1)", email, name);
+                _db.Execute("INSERT INTO UserProfile (Email, UserName) VALUES (@0, @1)", email, name);
             
                 // Create and associate a new entry in the membership database.
                 // If successful, continue processing the request

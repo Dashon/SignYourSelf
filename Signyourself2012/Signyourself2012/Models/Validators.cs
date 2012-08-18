@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace Signyourself2012.Models
 {
     [MetadataType(typeof(RewardMetaData))]
@@ -63,7 +64,7 @@ namespace Signyourself2012.Models
         [Required(ErrorMessage = "Please Enter An Intro Statment")]
         public string Description { get; set; }
 
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         public string Minimum { get; set; }
 
         [Required(ErrorMessage = "Please Enter A Delivery Date")]
@@ -113,13 +114,13 @@ namespace Signyourself2012.Models
 
     public class ProductMetaData
     {
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         public string CreditPrice { get; set; }
 
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         public string CashPrice { get; set; }
 
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         public Nullable<int> QTY { get; set; }
 
         [MaxLength(60, ErrorMessage = "Must Be Less Than 60 Charcters")]
@@ -151,29 +152,19 @@ namespace Signyourself2012.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please Enter A Description")]
-        [MaxLength(140, ErrorMessage = "Must Be Less Than 140 Charcters")]
-        [MinLength(20, ErrorMessage = "Please Enter A Better Description")]
+        //[MaxLength(140, ErrorMessage = "Must Be Less Than 140 Charcters")]
+        //[MinLength(20, ErrorMessage = "Please Enter A Better Description")]
         public string Description { get; set; }
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         [Required(ErrorMessage = "Please Enter A Number")]
         public string TargetNum { get; set; }
-        [RegularExpression(MyVars.currencyRegx, ErrorMessage = "Must be greater than 0 ")]
+        [RegularExpression(MyVars.CurrencyRegx, ErrorMessage = "Must be greater than 0 ")]
         public string QtyMax { get; set; }
-
-        [Required(ErrorMessage = "Please Enter A Target Date")]
-        public System.DateTime TargetDate { get; set; }
 
         [Required(ErrorMessage = "Please Enter An Experation Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public System.DateTime ExpDate { get; set; }
-        [DataType(DataType.Url)]
-        public string YouTubeURL { get; set; }
-        [DataType(DataType.Url)]
-        public string FBURL { get; set; }
-        [DataType(DataType.Url)]
-        public string TwitterURL { get; set; }
-
     }
 
     public class FileMetaData

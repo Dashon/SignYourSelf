@@ -1,5 +1,4 @@
 ﻿@model Signyourself2012.Models.Profile
-@{ var db = new Signyourself2012.Models.SignYourselfEntities();}
     <!-- slider holder -->
     <div id="slider-holder" class="clearfix">
         <!-- slider -->
@@ -24,7 +23,7 @@
                     @{
                         if (WebSecurity.IsAuthenticated)
                         {
-                            var sUserSupported = from purchase in db.Purchases
+                            var sUserSupported = from purchase in _db.Purchases
                                                  where purchase.Product.UserID == Model.UserId &&
                                                           purchase.UserID == (Guid)Membership.GetUser().ProviderUserKey
                                                  select purchase;
@@ -35,7 +34,7 @@
                         var messageProducts = Model.User.Products.Where(x => x.ProductTypeID == 2 &&
                                                                          x.Active == true);
 
-                        var messagePurchaseDates = from purchase in db.Purchases
+                        var messagePurchaseDates = from purchase in _db.Purchases
                                                    where purchase.ProductID == messageProducts.First().ProductID &&
                                                          purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
                                                    select purchase.Date;
@@ -44,7 +43,7 @@
                         var callProducts = Model.User.Products.Where(x => x.ProductTypeID == 3 &&
                                                                       x.Active == true);
 
-                        var callPurchaseDate = from purchase in db.Purchases
+                        var callPurchaseDate = from purchase in _db.Purchases
                                                where purchase.ProductID == callProducts.First().ProductID &&
                                                      purchase.Transactions.Where(x => x.TransactionTypeID == 2).Count() > 0
                                                select purchase.Date;

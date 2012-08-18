@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Signyourself2012.Models.Ref_CampaignUsers>
-@{ var db = new Signyourself2012.Models.SignYourselfEntities();}
+@{ var _db = new Signyourself2012.Models.SignYourselfEntities();}
 @{ 
     var Campaign_Supporters = Model.Where(CS => CS.RelationshipTypeID == 2);
 }

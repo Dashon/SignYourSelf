@@ -19,7 +19,7 @@
                 <progress max="@g.TargetNum" value="@g.CurrentQTY" >
                 </progress>
                 <div>@g.ExpDate.Subtract(DateTime.Today).TotalDays days left</div>
-                @{Html.RenderPartial("_GoalRewards");}
+                @{Html.RenderPartial("_GoalRewards",g.Rewards);}
             </div>     
                     
             }

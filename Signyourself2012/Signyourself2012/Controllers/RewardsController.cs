@@ -12,14 +12,14 @@ namespace Signyourself2012.Controllers
 {
     public class RewardsController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Rewards/
          [Authorize]
         public ActionResult Index()
         {
-            var rewards = db.Rewards.Include(r => r.RewardType).Include(r => r.Creator).Include(r => r.Goal);
+            var rewards = _db.Rewards.Include(r => r.RewardType).Include(r => r.Creator).Include(r => r.Goal);
             return View(rewards.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Reward reward = db.Rewards.Find(id);
+            Reward reward = _db.Rewards.Find(id);
             if (reward == null)
             {
                 return HttpNotFound();
@@ -41,13 +41,13 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create(int CampaignId = 5)
         {
-            Campaign campaign = db.Campaigns.Find(CampaignId);
+            Campaign campaign = _db.Campaigns.Find(CampaignId);
             if (campaign == null) { return HttpNotFound(); }
             //if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
-            ViewBag.RewardTypeID = new SelectList(db.RewardTypes, "RewardTypeID", "Name");
+            ViewBag.RewardTypeID = new SelectList(_db.RewardTypes, "RewardTypeID", "Name");
             //ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName");            
             ViewBag.CampaignID = CampaignId;
-            ViewBag.GoalID = new SelectList(db.Goals.Where(g => g.CampaignID == CampaignId), "GoalID", "Name");
+            ViewBag.GoalID = new SelectList(_db.Goals.Where(g => g.CampaignID == CampaignId), "GoalID", "Name");
             return View();
         }
 
@@ -58,18 +58,18 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create(Reward reward)
         {
-            Campaign campaign = db.Campaigns.Find(reward.Goal.Campaign.CampaignID);
+            Campaign campaign = _db.Campaigns.Find(reward.Goal.Campaign.CampaignID);
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
-                db.Rewards.Add(reward);
-                db.SaveChanges();
+                _db.Rewards.Add(reward);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RewardTypeID = new SelectList(db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
-            ViewBag.GoalID = new SelectList(db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
+            ViewBag.RewardTypeID = new SelectList(_db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
+            ViewBag.GoalID = new SelectList(_db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
             return View(reward);
         }
 
@@ -78,8 +78,8 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            Reward reward = db.Rewards.Find(id);
-            Campaign campaign = db.Campaigns.Find(reward.Goal.CampaignID);
+            Reward reward = _db.Rewards.Find(id);
+            Campaign campaign = _db.Campaigns.Find(reward.Goal.CampaignID);
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
 
@@ -87,8 +87,8 @@ namespace Signyourself2012.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RewardTypeID = new SelectList(db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
-            ViewBag.GoalID = new SelectList(db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
+            ViewBag.RewardTypeID = new SelectList(_db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
+            ViewBag.GoalID = new SelectList(_db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
             return View(reward);
         }
 
@@ -99,17 +99,17 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(Reward reward)
         {
-            Campaign campaign = db.Campaigns.Find(reward.Goal.CampaignID);
+            Campaign campaign = _db.Campaigns.Find(reward.Goal.CampaignID);
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (ModelState.IsValid)
             {
-                db.Entry(reward).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(reward).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RewardTypeID = new SelectList(db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
-            ViewBag.GoalID = new SelectList(db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
+            ViewBag.RewardTypeID = new SelectList(_db.RewardTypes, "RewardTypeID", "Name", reward.RewardTypeID);
+            ViewBag.GoalID = new SelectList(_db.Goals.Where(g => g.CampaignID == reward.Goal.CampaignID), "GoalID", "Name", reward.GoalID);
             return View(reward);
         }
 
@@ -118,8 +118,8 @@ namespace Signyourself2012.Controllers
          [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            Reward reward = db.Rewards.Find(id);
-            Campaign campaign = db.Campaigns.Find(reward.Goal.CampaignID);
+            Reward reward = _db.Rewards.Find(id);
+            Campaign campaign = _db.Campaigns.Find(reward.Goal.CampaignID);
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             if (reward == null)
@@ -136,19 +136,19 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Reward reward = db.Rewards.Find(id);
-            Campaign campaign = db.Campaigns.Find(reward.Goal.Campaign.CampaignID);
+            Reward reward = _db.Rewards.Find(id);
+            Campaign campaign = _db.Campaigns.Find(reward.Goal.Campaign.CampaignID);
             if (campaign == null) { return HttpNotFound(); }
             if (campaign.Creator.UserId != (Guid)Membership.GetUser().ProviderUserKey) { return HttpNotFound(); }
             reward.IsDeactivated = true;
-            db.Entry(reward).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(reward).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

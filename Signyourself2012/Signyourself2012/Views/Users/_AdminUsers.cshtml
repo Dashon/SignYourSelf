@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Signyourself2012.Models.User>
+
+<script>    $(document).ready(function () {
+        $("#susTable").tablesorter();
+    }
+);</script>
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="susTable" class="sustable">
+<thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model => model.Profile.Title)
+        
+            @Html.DisplayNameFor(model => model.Profile.FirstName)
+        
+            @Html.DisplayNameFor(model => model.Profile.Middle)
+       
+            @Html.DisplayNameFor(model => model.Profile.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Profile.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Profile.LastUpdatedDate)
+        </th>    
+        <th>
+            Approved
+        </th>
+        <th>
+            Deactivated
+        </th>
+        <th>
+            Locked Out
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profile.User.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profile.Title)
+        
+            @Html.DisplayFor(modelItem => item.Profile.FirstName)
+       
+            @Html.DisplayFor(modelItem => item.Profile.Middle)
+        
+            @Html.DisplayFor(modelItem => item.Profile.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profile.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profile.LastUpdatedDate)
+        </td>
+        <td>
+            @html.DisplayFor(modelItem => item.Membership.IsApproved)
+        </td>
+        <td>
+            @html.DisplayFor(modelItem => item.Membership.IsDeactivated)
+        </td>
+         <td>
+            @html.DisplayFor(modelItem => item.Membership.IsLockedOut)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+</tbody>
+</table>

@@ -11,14 +11,14 @@ namespace Signyourself2012.Controllers
 {
     public class MessagesController : Controller
     {
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
 
         //
         // GET: /Messages/
 
         public ActionResult Index()
         {
-            var messages = db.Messages.Include(m => m.Reciepient);
+            var messages = _db.Messages.Include(m => m.Reciepient);
             return View(messages.ToList());
         }
 
@@ -27,7 +27,7 @@ namespace Signyourself2012.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Message message = db.Messages.Find(id);
+            Message message = _db.Messages.Find(id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -40,7 +40,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName");
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName");
             return View();
         }
 
@@ -53,12 +53,12 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Messages.Add(message);
-                db.SaveChanges();
+                _db.Messages.Add(message);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", message.UserID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", message.UserID);
             return View(message);
         }
 
@@ -67,12 +67,12 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            Message message = db.Messages.Find(id);
+            Message message = _db.Messages.Find(id);
             if (message == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", message.UserID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", message.UserID);
             return HttpNotFound();
         }
 
@@ -85,11 +85,11 @@ namespace Signyourself2012.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(message).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.UserID = new SelectList(db.Users, "UserId", "UserName", message.UserID);
+            ViewBag.UserID = new SelectList(_db.Users, "UserId", "UserName", message.UserID);
             return HttpNotFound();
         }
 
@@ -98,7 +98,7 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult Delete(int id = 0)
         {
-            Message message = db.Messages.Find(id);
+            Message message = _db.Messages.Find(id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -113,15 +113,15 @@ namespace Signyourself2012.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
-            Message message = db.Messages.Find(id);
-            db.Messages.Remove(message);
-            db.SaveChanges();
+            Message message = _db.Messages.Find(id);
+            _db.Messages.Remove(message);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

@@ -15,8 +15,7 @@ namespace Signyourself2012.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-
-        private SignYourselfEntities db = new SignYourselfEntities();
+        private readonly SignYourselfEntities _db = new SignYourselfEntities();
         //
         // GET: /Account/Login
 
@@ -102,10 +101,10 @@ namespace Signyourself2012.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                     // TODO make create profile method for 
                    
-                        var profile = new Profile { User = db.Users.Single(u => u.UserId == (Guid)userid),
+                        var profile = new Profile { User = _db.Users.Single(u => u.UserId == (Guid)userid),
                         LastUpdatedDate= DateTime.Now};
-                        db.Profiles.Add(profile);
-                        db.SaveChanges();
+                        _db.Profiles.Add(profile);
+                        _db.SaveChanges();
                         return RedirectToAction("Edit", new RouteValueDictionary(
                                                             new
                                                                 {
@@ -179,14 +178,6 @@ namespace Signyourself2012.Controllers
         private IEnumerable<string> GetErrorsFromModelState()
         {
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
-        }
-
-        //
-        // GET: /Account/Dashboard
-
-        public ActionResult Dashboard()
-        {
-            return View();
         }
 
         #region Status Codes
